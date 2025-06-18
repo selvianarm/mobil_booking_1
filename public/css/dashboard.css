@@ -1,0 +1,611 @@
+/* RESET & DASAR */
+* {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #849aff 0%);
+  min-height: 100vh;
+}
+::-webkit-scrollbar{
+    display: none;
+}
+
+/* Notifikasi */
+.alert-info {
+    background-color: #e0f2fe;
+    border-left: 4px solid #3b82f6;
+    color: #1e40af;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+/* WRAPPER LAYOUT */
+.layout {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
+
+/* KONTEN UTAMA */
+.dashboard-container {
+  position: relative;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.dashboard-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* HEADER */
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.slider-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: 0;
+}
+
+.slide.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    z-index: 2;
+    h1 {
+        font-size: 5rem;
+        margin-bottom: 4rem;
+        animation: fadeInUp 1s ease-in-out;
+    }
+}
+
+.cta-button {
+    background-color: #6c63ff;
+    color: #fff;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+.cta-button:hover {
+    background-color: #554fd8;
+}
+
+/* DOT indicators */
+.slider-indicators {
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    text-align: center;
+    z-index: 3;
+}
+
+.slider-indicators .dot {
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+    margin: 0 5px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.slider-indicators .dot.active {
+    background-color: #ffffff;
+}
+
+/* STATISTIK */
+.stats-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.stats-grid {
+  display: grid;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-bottom: 3rem;
+}
+
+.stat-card {
+  flex: 1 1 calc(50% - 40px); /* Dua kolom dengan jarak antar item */
+  max-width: 250px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s;
+  animation: slideInUp 0.8s ease-out;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.stat-icon i {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.stat-number {
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* MAIN CONTENT LAYOUT */
+
+
+/* card layout */
+.card-grid-mobil {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.card-mobil {
+  flex: 1 1 calc(50% - 40px); /* Dua kolom dengan jarak antar item */
+  max-width: 250px;
+}
+
+.card-item-mobil {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 50px;
+  justify-content: center;
+}
+
+.card-mobil {
+  width: 250px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 15px 10px;
+}
+
+.card-mobil:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.card-image {
+  width: 100%;
+  height: 140px;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.card-status {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card-status.tersedia {
+  color: green;
+}
+
+.card-status.tidak-tersedia {
+  color: red;
+}
+
+.booking-button {
+  padding: 8px 20px;
+  background-color: #6ca5c4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.booking-button:hover {
+  background-color: #764ba2;
+  transform: scale(1.05);
+}
+
+
+/* BOOKING SECTION */
+footer ul li {
+    margin: 0; /* Hapus margin default */
+    padding: 2px 0; /* Jarak antar item */
+    line-height: 1.5; /* Tinggi baris seragam */
+    display: flex;
+    align-items: center;
+}
+
+footer ul li i {
+    width: 20px; /* Ukuran ikon konsisten */
+    text-align: center;
+}
+
+
+.booking-section,
+.available-cars,
+.recent-bookings {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  animation: slideInLeft 0.8s ease-out;
+}
+
+/* FORM */
+.quick-booking-form {
+  padding: 2rem 0;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  position: relative;
+  padding: 1rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  background: white;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-2px);
+}
+
+.form-label {
+  position: absolute;
+  top: -8px;
+  left: 12px;
+  background: white;
+  padding: 0 8px;
+  color: #4a5568;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 1.2rem 2rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+/* MOBIL & BOOKING */
+.car-item {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.car-item:hover {
+  background: white;
+  transform: translateX(8px);
+  border-color: #667eea;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.car-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #4ecdc4, #44a08d);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+.car-info h4 {
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.car-status {
+  font-size: 0.9rem;
+  color: #22c55e;
+  font-weight: 500;
+}
+
+.booking-item {
+  padding: 1rem;
+  border-left: 4px solid #667eea;
+  background: #f8fafc;
+  margin-bottom: 1rem;
+  border-radius: 0 8px 8px 0;
+  transition: all 0.3s ease;
+}
+
+.booking-item:hover {
+  background: white;
+  transform: translateX(4px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* FLOATING ACTION BUTTON */
+.floating-action {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(238, 90, 36, 0.4);
+  cursor: pointer;
+  z-index: 1000;
+}
+
+/* ANIMASI */
+
+/* Optional: smooth text animation pada header */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* animasi lain */
+@keyframes slideInDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* RESPONSIVE MOBILE */
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .content {
+    padding: 1rem;
+  }
+
+  .dashboard-container {
+    padding: 1rem;
+  }
+
+  .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .cta-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+      .main-content {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0;
+    margin-bottom: 50px;
+  }
+
+  .stat-card {
+    flex: 1 1 100%;
+    max-width: 200px;
+  }
+
+  .stat-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .stat-number {
+    font-size: 1.8rem;
+  }
+
+  .stat-label {
+    font-size: 0.95rem;
+  }
+
+  .welcome-text {
+    font-size: 2rem;
+  }
+
+  .quick-booking-form {
+    padding: 1rem 0;
+  }
+
+  .floating-action {
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  .card-grid-mobil {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0;
+    margin-bottom: 50px;
+  }
+
+.card-mobil {
+    flex: 1 1 100%;
+    max-width: 200px;
+  }
+
+.card-mobil:hover {
+  transform: translateY(-5px);
+}
+
+.card-image {
+  width: 100%;
+  height: auto;
+}
+
+.card-content {
+  padding: 1rem;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin: 0 0 0.5rem;
+}
+
+.card-plat {
+  margin: 0;
+  color: #666;
+}
+
+.card-status {
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+.card-status.tersedia {
+  color: green;
+}
+
+.card-status.tidak-tersedia {
+  color: red;
+}
+
+.booking-button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #667eea;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.booking-button:hover {
+  background-color: #5a67d8;
+}
+}
