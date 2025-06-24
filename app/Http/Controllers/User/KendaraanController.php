@@ -24,10 +24,17 @@ class KendaraanController extends Controller
        
     }
 
-    public function show($id)
-    {
-        
-    }
+    public function show(Kendaraan $kendaraan)
+{
+    $booking = \App\Models\Booking::with('user')
+        ->where('kendaraan_id', $kendaraan->id)
+        ->whereIn('status', ['approved', 'selesai'])
+        ->latest()
+        ->first();
+
+    return view('user.kendaraan.detail', compact('kendaraan', 'booking'));
+}
+
 
     public function edit($id)
     {
@@ -40,7 +47,7 @@ class KendaraanController extends Controller
     }
 
     public function destroy($id)
-    {
+    {
 
-    }
+    }
 }

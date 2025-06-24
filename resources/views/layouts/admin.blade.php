@@ -173,7 +173,6 @@
 
         /* Main Content */
         .main-content {
-            margin-top: 70px;
             padding: 2rem;
             min-height: calc(100vh - 70px);
         }
@@ -824,5 +823,8 @@
 
 </script>
 
+@yield('scripts')
+
 </body>
 </html>
+

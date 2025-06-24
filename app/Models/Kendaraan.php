@@ -20,5 +20,18 @@ class Kendaraan extends Model
     public function laporan() {
         return $this->hasMany(Laporan::class, 'kendaraan_id');
     }
+
+    public function activeBooking()
+    {
+        return $this->hasOne(Booking::class)
+                    ->where('status', 'approved');
+    }
+
+    public function isBooked()
+    {
+        return $this->activeBooking()->exists();
+    }
+
+
 }
 

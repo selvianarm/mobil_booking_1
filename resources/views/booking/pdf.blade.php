@@ -13,7 +13,8 @@
     <h2>Detail Booking</h2>
 
     <div class="section">
-        <p><strong>Nama User:</strong> {{ $laporan->user->nama ?? '-' }}</p>
+        <p><strong>Nama Karyawan:</strong> {{ $laporan->user->nama ?? '-' }}</p>
+        <p><strong>Nama Peminjam:</strong> {{ $laporan->nama ?? '-' }}</p>
         <p><strong>No. Telepon:</strong> {{ $laporan->nomor_telepon }}</p>
         <p><strong>Tanggal:</strong> {{ $laporan->tanggal }}</p>
         <p><strong>Jam Pergi:</strong> {{ $laporan->jam_pergi }}</p>

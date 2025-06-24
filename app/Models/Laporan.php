@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Laporan extends Model
 {
-    protected $table = 'laporans'; // opsional, jika nama tabel tidak sesuai konvensi
+    protected $table = 'laporan'; // opsional, jika nama tabel tidak sesuai konvensi
 
     protected $fillable = [
+        'booking_id',
         'user_id',
         'nomor_telepon',
         'tanggal',
@@ -17,7 +18,6 @@ class Laporan extends Model
         'jam_pulang',
         'tujuan',
         'kendaraan_id',
-        'sopir_id',
         'km_pergi',
         'km_pulang',
         'bensin_pergi',
@@ -26,6 +26,8 @@ class Laporan extends Model
         'kondisi_body_pulang',
         'kondisi_dalam_pergi',
         'kondisi_dalam_pulang',
+        'status',
+        'nama',
     ];
 
     // Relasi ke user

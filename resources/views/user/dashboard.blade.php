@@ -31,7 +31,7 @@
       Kami percaya bahwa mobilitas yang baik akan menciptakan pekerjaan yang hebat
     </p>
     <div class="mt-6 flex space-x-4">
-      <a href="#mulai"
+      <a href="#booking"
          class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-md shadow-md transition">
         MULAI
       </a>
@@ -47,30 +47,34 @@
             <div class="stat-icon">
                 <i class="fas fa-car"></i>
             </div>
-{{-- <div class="stat-number">{{ $availableCars }}</div> --}}
+            <div class="stat-number">{{ $availableCars  }}</div>
             <div class="stat-label">Mobil Tersedia</div>
         </div>
-        <div class="stat-card">
-            <div class="stat-icon" style="background: linear-gradient(135deg, #4ecdc4, #44a08d);">
-                <i class="fas fa-calendar-check"></i>
-            </div>
-{{-- <div class="stat-number">{{ $activeBookingCount }}</div> --}}
-            <div class="stat-label">Booking Aktif</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon" style="background: linear-gradient(135deg, #a8edea, #fed6e3);">
-                <i class="fas fa-clock"></i>
-            </div>
-{{-- <div class="stat-number">{{ $pendingApprovals }}</div> --}}
-            <div class="stat-label">Menunggu Approval</div>
-        </div>
-        <div class="stat-card">
+          
+            <div class="stat-card">
+              <div class="stat-icon" style="background: linear-gradient(135deg, #4ecdc4, #44a08d);">
+                  <i class="fas fa-calendar-check"></i>
+              </div>
+              <div class="stat-number">{{ $activeBookingCount  }}</div>
+              <div class="stat-label">Booking Aktif</div>
+          </div>
+
+          <div class="stat-card">
             <div class="stat-icon" style="background: linear-gradient(135deg, #ffecd2, #fcb69f);">
                 <i class="fas fa-chart-line"></i>
             </div>
-{{-- <div class="stat-number">{{ $totalTrips }}</div> --}}
+            <div class="stat-number">{{ $totalTrips  }}</div>
             <div class="stat-label">Total Perjalanan</div>
         </div>
+
+        <div class="stat-card">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #a8edea, #fed6e3);">
+              <i class="fas fa-clock"></i>
+          </div>
+          <div class="stat-number">{{ $pendingApprovals }}</div>
+          <div class="stat-label">Menunggu Approval</div>
+        </div>
+
     </div>
 
     <div id="booking">
@@ -159,7 +163,7 @@
               
                 <!-- Copyright -->
                 <div class="border-t border-gray-700 mt-10 pt-6 text-center text-sm text-gray-400 px-6">
-                    &copy; 2025 List Mobil Anda. All rights reserved.
+                    &copy; Booking Mobil PT. Bintang Mas Karya Nusantara.
                 </div>
               </footer>
 

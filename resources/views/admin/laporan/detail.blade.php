@@ -13,7 +13,8 @@
         <!-- Informasi Umum -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-700">
             <div>
-                <p><span class="font-semibold">Nama:</span> {{ $laporan->nama ?? '-' }}</p>
+                <p><span class="font-semibold">Nama Karyawan:</span> {{ $laporan->user->nama ?? '-' }}</p>
+                <p><span class="font-semibold">Nama Peminjam:</span> {{ $laporan->nama ?? '-' }}</p>
                 <p><span class="font-semibold">No. Telepon:</span> {{ $laporan->nomor_telepon }}</p>
                 <p><span class="font-semibold">Tanggal:</span> {{ $laporan->tanggal }}</p>
                 <p><span class="font-semibold">Jam Pergi:</span> {{ $laporan->jam_pergi }}</p>
@@ -45,10 +46,14 @@
                 @foreach ($gambarList as $label => $path)
                     <div class="text-center">
                         <p class="text-sm font-medium text-gray-600 mb-1">{{ $label }}</p>
-                        <a href="{{ asset($path) }}" target="_blank">
-                            <img src="{{ asset($path) }}"
-                                 class="h-32 w-full object-cover rounded-md shadow-md hover:shadow-lg transition duration-200 ease-in-out" />
-                        </a>
+                        @if ($path)
+                            <a href="{{ Storage::url($path) }}" target="_blank">
+                                <img src="{{ Storage::url($path) }}"
+                                     class="h-32 w-full object-cover rounded-md shadow-md hover:shadow-lg transition duration-200 ease-in-out" />
+                            </a>
+                        @else
+                            <p class="text-gray-400 italic">Tidak ada foto</p>
+                        @endif
                     </div>
                 @endforeach
             </div>

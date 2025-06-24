@@ -17,9 +17,14 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        $laporan = Booking::with(['user', 'kendaraan'])->paginate(10); // ✅ Betul: pakai paginate
+        $laporan = Booking::with(['user', 'kendaraan'])
+                    ->whereIn('status', ['rejected', 'selesai'])
+                    ->latest()
+                    ->paginate(10); // pakai paginate biar tidak terlalu berat
+
         return view('admin.laporan.index', compact('laporan'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -72,7 +77,8 @@ class LaporanController extends Controller
 
     public function downloadPdf($id)
     {
-        $laporan = Laporan::with(['user', 'kendaraan'])->findOrFail($id);
+        //$laporan = Laporan::with(['user', 'kendaraan'])->findOrFail($id);
+        $laporan = Booking::with(['user', 'kendaraan'])->findOrFail($id);
         $pdf = PDF::loadView('admin.laporan.pdf', compact('laporan'))->setPaper('a4');
 
         return $pdf->download('laporan-detail-'.$id.'.pdf');

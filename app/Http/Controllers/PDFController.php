@@ -16,5 +16,6 @@ class PDFController extends Controller
 
         return $pdf->download('tabel-data.pdf');
     }
+    
 }
 

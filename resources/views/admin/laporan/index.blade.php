@@ -159,10 +159,72 @@ div.dataTables_wrapper div.dataTables_paginate {
                  'rt' +
                  '<"w-full flex flex-col sm:flex-row justify-between items-center mt-4" ip>',
             buttons: [
-                { extend: 'copy',  text: 'Copy',  className: 'bg-gray-200 text-black  px-4 py-1 rounded text-sm shadow mr-2 mb-2' },
-                { extend: 'excel', text: 'Excel', className: 'bg-green-500 text-white px-4 py-1 rounded text-sm shadow mr-2 mb-2' },
-                { extend: 'pdf',   text: 'PDF',   className: 'bg-red-500 text-white  px-4 py-1 rounded text-sm shadow mr-2 mb-2' },
-                { extend: 'print', text: 'Print', className: 'bg-blue-500 text-white px-4 py-1 rounded text-sm shadow        mb-2' }
+                {
+                    extend: 'copy',
+                    text: 'Copy',
+                    exportOptions: {
+                        columns: ':visible',
+                        modifier: {
+                            page: 'all'
+                        },
+                        format: {
+                            body: function (data, row, column, node) {
+                                return formatExportContent(data, node);
+                            }
+                        }
+                    },
+                    className: 'bg-gray-200 text-black  px-4 py-1 rounded text-sm shadow mr-2 mb-2'
+                },
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    exportOptions: {
+                        columns: ':visible',
+                        modifier: {
+                            page: 'all'
+                        },
+                        format: {
+                            body: function (data, row, column, node) {
+                                return formatExportContent(data, node);
+                            }
+                        }
+                    },
+                    className: 'bg-green-500 text-white px-4 py-1 rounded text-sm shadow mr-2 mb-2'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    orientation: 'landscape',
+                    pageSize: 'A3',
+                    exportOptions: {
+                        columns: ':visible',
+                        modifier: {
+                            page: 'all'
+                        },
+                        format: {
+                            body: function (data, row, column, node) {
+                                return formatExportContent(data, node);
+                            }
+                        }
+                    },
+                    className: 'bg-red-500 text-white px-4 py-1 rounded text-sm shadow mr-2 mb-2'
+                },
+                {
+                    extend: 'print',
+                    text: 'Print',
+                    exportOptions: {
+                        columns: ':visible',
+                        modifier: {
+                            page: 'all'
+                        },
+                        format: {
+                            body: function (data, row, column, node) {
+                                return formatExportContent(data, node);
+                            }
+                        }
+                    },
+                    className: 'bg-blue-500 text-white px-4 py-1 rounded text-sm shadow mb-2'
+                }
             ],
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json',
@@ -172,8 +234,17 @@ div.dataTables_wrapper div.dataTables_paginate {
                 }
             }
         });
+
+        function formatExportContent(data, node) {
+            let img = $(node).find('img');
+            if (img.length) {
+                return img.attr('src'); // ini akan export URL gambar, bukan tampilkan gambar langsung
+            }
+            return $(node).text(); // fallback jika bukan gambar
+        }
     });
 </script>
+
 @endsection
 
 @section('content')
@@ -194,10 +265,11 @@ div.dataTables_wrapper div.dataTables_paginate {
             <thead class="bg-blue-50 text-blue-800 uppercase text-xs font-semibold border-b">
                 <tr>
                     <th class="px-3 py-3">No</th>
+                    <th class="px-3 py-3">Nama Karyawan</th>
+                    
                     <th class="px-3 py-3">Tanggal</th>
                     <th class="px-3 py-3">Kendaraan</th>
                     <th class="px-3 py-3">Nama Peminjam</th>
-                    <th class="px-3 py-3">Sopir</th>
                     <th class="px-3 py-3">Tujuan</th>
                     <th class="px-3 py-3">KM Pergi/Pulang</th>
                     <th class="px-3 py-3">Jam Pergi - Pulang</th>
@@ -207,63 +279,81 @@ div.dataTables_wrapper div.dataTables_paginate {
                     <th class="px-3 py-3">Kondisi Dalam Pulang</th>
                     <th class="px-3 py-3">Bensin Pergi</th>
                     <th class="px-3 py-3">Bensin Pulang</th>
-                    <th class="px-3 py-3 text-center">Aksi</th>
+                    <th class="px-3 py-3">Status</th>
+                    <th class="px-3 py-3">Detail</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($laporan as $booking)
                     <tr class="border-b hover:bg-gray-50 transition duration-150">
                         <td class="px-3 py-2">{{ ($laporan->currentPage() - 1) * $laporan->perPage() + $loop->iteration }}</td>
+                        <td class="px-3 py-2">{{ $booking->user->nama ?? '-' }}</td>
                         <td class="px-3 py-2">{{ $booking->tanggal }}</td>
                         <td class="px-3 py-2">{{ $booking->kendaraan->jenis ?? '-' }}</td>
-                        <td class="px-3 py-2">{{ $booking->user->nama ?? '-' }}</td>
-                        <td class="px-3 py-2">{{ $booking->sopir->nama ?? '-' }}</td>
+                        <td class="px-3 py-2">{{ $booking->nama ?? '-' }}</td>
                         <td class="px-3 py-2">{{ $booking->tujuan }}</td>
                         <td class="px-3 py-2">{{ $booking->km_pergi ?? '-' }} / {{ $booking->km_pulang ?? '-' }}</td>
                         <td class="px-3 py-2">{{ $booking->jam_pergi ?? '-' }} - {{ $booking->jam_pulang ?? '-' }}</td>
 
                         <td class="px-3 py-2">
                             @if ($booking->kondisi_body_pergi)
-                                <img src="{{ Storage::url($booking->kondisi_body_pergi) }}" alt="Body Pergi" class="w-12 h-12 object-cover">
+                                <img src="{{ Storage::url($booking->kondisi_body_pergi) }}"class="w-12 h-12 object-cover">
                             @else
                                 <span>-</span>
                             @endif
                         </td>
                         <td class="px-3 py-2">
                             @if ($booking->kondisi_body_pulang)
-                                <img src="{{ Storage::url($booking->kondisi_body_pulang) }}" alt="Body Pulang" class="w-12 h-12 object-cover">
+                                <img src="{{ Storage::url($booking->kondisi_body_pulang) }}"class="w-12 h-12 object-cover">
                             @else
                                 <span>-</span>
                             @endif
                         </td>
                         <td class="px-3 py-2">
                             @if ($booking->kondisi_dalam_pergi)
-                                <img src="{{ Storage::url($booking->kondisi_dalam_pergi) }}" alt="Dalam Pergi" class="w-12 h-12 object-cover">
+                                <img src="{{ Storage::url($booking->kondisi_dalam_pergi) }}"  class="w-12 h-12 object-cover">
                             @else
                                 <span>-</span>
                             @endif
                         </td>
                         <td class="px-3 py-2">
                             @if ($booking->kondisi_dalam_pulang)
-                                <img src="{{ Storage::url($booking->kondisi_dalam_pulang) }}" alt="Foto" class="w-12 h-12 object-cover">
+                                <img src="{{ Storage::url($booking->kondisi_dalam_pulang) }}"class="w-12 h-12 object-cover">
                             @else
                                 <span>-</span>
                             @endif
                         </td>
 
-                         <td class="px-3 py-2">
-                            @if ($booking->kondisi_bensin_pergi)
-                                <img src="{{ Storage::url($booking->kondisi_bensin_pergi) }}" alt="Foto" class="w-12 h-12 object-cover">
+                        <td class="px-3 py-2">
+                            @if ($booking->bensin_pergi)
+                            <img src="{{ Storage::url($booking->bensin_pergi) }}" class="w-12 h-12 object-cover">
+                        @else
+                            <span>-</span>
+                        @endif
+                                            
+                        </td>
+
+                        <td class="px-3 py-2">
+                            @if ($booking->bensin_pulang)
+                                <img src="{{ Storage::url($booking->bensin_pulang) }}"class="w-12 h-12 object-cover">
                             @else
                                 <span>-</span>
                             @endif
                         </td>
-                        <td class="px-3 py-2">
-                            @if ($booking->kondisi_bensin_pulang)
-                                <img src="{{ Storage::url($booking->kondisi_bensin_pulang) }}" alt="Foto" class="w-12 h-12 object-cover">
-                            @else
-                                <span>-</span>
-                            @endif
+                        <td class="px-4 py-2">
+                            <span class="inline-block px-2 py-1 rounded text-white
+                                @if($booking->status == 'pending') bg-yellow-500
+                                @elseif($booking->status == 'approved') bg-green-600
+                                @elseif($booking->status == 'rejected') bg-red-600
+                                @elseif($booking->status == 'selesai') bg-blue-600
+                                @endif">
+                                {{ ucfirst($booking->status) }}
+                            </span>
+                        </td>
+                        <td class="px-3 py-2 text-center">
+                            <a href="{{ route('admin.laporan.show', $booking->id) }}" class="text-indigo-600 hover:text-indigo-800 font-medium mr-2">
+                                <i class="fas fa-eye"></i> Detail
+                            </a>  
                         </td>
                     </tr>
                 @empty

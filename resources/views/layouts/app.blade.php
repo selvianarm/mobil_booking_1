@@ -83,7 +83,7 @@
         }
 
         .nav-menu li a:hover {
-        background-color: #667eea;
+        background-color: #008cff;
         color: #ffffff;
         }
 
@@ -141,16 +141,15 @@
             <button id="toggle-btn" class="nav-toggle">☰</button>
 
           <ul id="topnav-menu" class="nav-menu">
-    <li><a href="{{ route('dashboard') }}" class=" text-sm px-4 py-2 rounded-md inline-block hover:bg-blue-200">Beranda</a></li>
-    <li><a href="#" class=" text-sm px-4 py-2 rounded-md inline-block hover:bg-blue-200">Tentang</a></li>
-    <li><a href="#booking"  class=" text-sm px-4 py-2 rounded-md inline-block hover:bg-blue-200">Booking</a></li>
-    <li><a href="#kontak" class=" text-sm px-4 py-2 rounded-md inline-block hover:bg-blue-200">Kontak</a></li>
+        <li><a href="{{ route('user.dashboard') }}" class=" text-sm px-4 py-2 rounded-md inline-block hover:bg-blue-200">Beranda</a></li>
+        <li><a href="#booking"  class=" text-sm px-4 py-2 rounded-md inline-block hover:bg-blue-200">Booking</a></li>
+        <li><a href="#kontak" class=" text-sm px-4 py-2 rounded-md inline-block hover:bg-blue-200">Kontak</a></li>
     
     @auth
     <li>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-md inline-flex items-center">
+            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white text-sm px-4 py-2 rounded-md inline-flex items-center">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </button>
         </form>

@@ -11,7 +11,7 @@
 
 @section('content')
 <div class="booking-wrapper">
-    <form action="{{ route('booking.return.store', $booking->id) }}" method="POST" enctype="multipart/form-data" class="booking-form">
+    <form action="{{ route('user.booking.return.store', $booking->id) }}" method="POST" enctype="multipart/form-data" class="booking-form">
         @csrf
         <div class="form-title">
             <h1>Form Pengembalian</h1>
