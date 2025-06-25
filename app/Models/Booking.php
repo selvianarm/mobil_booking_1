@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Kendaraan;
+
 
 class Booking extends Model
 {
@@ -27,12 +29,18 @@ class Booking extends Model
     ];
 
     public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+{
+    return $this->belongsTo(User::class);
+}
 
-    public function kendaraan()
-    {
-        return $this->belongsTo(Kendaraan::class);
-    }
+public function kendaraan()
+{
+    return $this->belongsTo(Kendaraan::class);
+}
+
+public function kendaraanPengganti()
+{
+    return $this->belongsTo(Kendaraan::class, 'kendaraan_pengganti_id');
+}
+    
 }

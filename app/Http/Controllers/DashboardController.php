@@ -48,11 +48,12 @@ public function index()
     $kendaraans = Kendaraan::all();
 
     // Ambil semua booking yang masih aktif (belum pulang), tidak dibatasi oleh user_id
-    $activeBookings = Booking::where('status', 'approved')
-        ->whereNull('jam_pulang') // artinya masih dipakai
-        ->with('user') // agar bisa akses $booking->user->name di view
+    $activeBookings = Booking::with('user', 'kendaraan')
+        ->whereIn('status', ['pending', 'approved'])
+        ->whereNull('jam_pulang')
         ->get()
         ->keyBy('kendaraan_id');
+
 
     // Hitung berapa kendaraan yang sedang user ini pakai (booking aktif milik user)
     $activeBookingCount = $activeBookings->count();

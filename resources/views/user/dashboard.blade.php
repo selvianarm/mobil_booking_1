@@ -167,6 +167,32 @@
                 </div>
               </footer>
 
+            @if(session('success'))
+                  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                  <script>
+                      Swal.fire({
+                          icon: 'success',
+                          title: 'Booking Berhasil!',
+                          text: '{{ session('success') }}',
+                          confirmButtonColor: '#3085d6',
+                          confirmButtonText: 'OK'
+                      });
+                  </script>
+              @endif
+
+              @if(session('error'))
+                  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                  <script>
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Oops!',
+                          text: '{{ session('error') }}',
+                          confirmButtonColor: '#d33',
+                          confirmButtonText: 'Kembali'
+                      });
+                  </script>
+              @endif
+
 @endsection
 @section('scripts')
 <script src="{{ asset('js/navbar.js') }}"></script>

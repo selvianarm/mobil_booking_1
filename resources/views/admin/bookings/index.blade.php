@@ -71,7 +71,7 @@
     <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4 border-b pb-4">
         <div class="flex items-center gap-2">
             <i class="fas fa-car text-2xl text-white-600"></i>
-            <h2 class="text-2xl font-bold text-gray-800">Manajemen Kendaraan</h2>
+            <h2 class="text-2xl font-bold text-gray-800">Manajemen Booking</h2>
         </div>
     </div>
 
@@ -96,10 +96,12 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Karyawan</th>
-                            <th>Kendaraan</th>
+                            <th>Nama Peminjam</th>
+                            <th>Mobil</th>
+                            <th>Mobil Pengganti</th>
                             <th>Tanggal</th>
                             <th>Status</th>
+                            <th>Detail</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,6 +110,7 @@
                                 <td>#BK{{ str_pad($booking->id, 3, '0', STR_PAD_LEFT) }}</td>
                                 <td>{{ $booking->nama ?? '-' }}</td>
                                 <td>{{ $booking->kendaraan->jenis ?? '-' }}</td>
+                                <td>{{ $booking->kendaraanPengganti->jenis ?? '-' }}</td>
                                 <td>{{ \Carbon\Carbon::parse($booking->tanggal)->format('d M Y') }}</td>
                                 <!-- <td>
                                     @if($booking->status == 'pending')
@@ -127,6 +130,11 @@
                                         @endif">
                                         {{ ucfirst($booking->status) }}
                                     </span>
+                                </td>
+                                <td>
+                                    <a href="{{ route('admin.booking.show', $booking->id) }}" class="text-indigo-600 hover:text-indigo-800 font-medium mr-2">
+                                        <i class="fas fa-eye"></i> Detail
+                                    </a> 
                                 </td>
                             </tr>
                         @endforeach

@@ -23,38 +23,6 @@ class BookingAdminController extends Controller
         return view('admin.bookings.index', compact('bookings'));
     }
 
-    // public function approve($id)
-    // {
-    //     $booking = Booking::with('user')->findOrFail($id); // pastikan eager loading user
-    //     $booking->status = 'approved';
-    //     $booking->save();
-
-    //     // Kirim email ke user
-    //     if ($booking->user && $booking->user->email) {
-    //         Mail::to($booking->user->email)->send(new BookingApproved($booking));
-    //     }
-
-    //     // Event (jika memang Anda gunakan)
-    //     event(new BookingStatusChanged($booking));
-
-    //     return redirect()->back()->with('success', 'Booking disetujui dan email telah dikirim.');
-    // }
-
-    // public function reject($id)
-    // {
-    //     $booking = Booking::with('user')->findOrFail($id);
-    //     $booking->status = 'rejected';
-    //     $booking->save();
-
-    //     // Kirim email penolakan
-    //     if ($booking->user && $booking->user->email) {
-    //         Mail::to($booking->user->email)->send(new BookingRejected($booking));
-    //     }
-
-    //     event(new BookingStatusChanged($booking));
-
-    //     return redirect()->back()->with('success', 'Booking ditolak dan email telah dikirim.');
-    // }
-
+    
 
 }

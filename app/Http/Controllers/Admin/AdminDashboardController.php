@@ -14,46 +14,85 @@ use App\Models\Booking;
 
 class AdminDashboardController extends Controller
 {
-    // Menampilkan semua booking yang maish pending
+    // Menampilkan semua booking yang masih pending
     public function index()
-{
-    // Ambil semua kendaraan
-    $kendaraans = Kendaraan::all();
+    {
+        // Ambil semua kendaraan
+        $kendaraans = Kendaraan::all();
 
-    // Ambil 10 booking yang statusnya pending, untuk ditampilkan
-    $bookings = Booking::with(['user', 'kendaraan'])
-        ->where('status', 'pending')
-        ->latest()
-        ->take(10)
-        ->get();
+        // Ambil 10 booking yang statusnya pending, untuk ditampilkan
+        $bookings = Booking::with(['user', 'kendaraan', 'kendaraanPengganti'])
+            ->where('status', 'pending')
+            ->latest()
+            ->take(10)
+            ->get();
 
-    // Ambil semua booking aktif (disetujui dan belum pulang)
-    $activeBookings = Booking::where('status', 'approved')
-        ->whereNull('jam_pulang')
-        ->get();
+        // Ambil semua booking aktif (disetujui dan belum pulang)
+        $activeBookings = Booking::where('status', 'approved')
+            ->whereNull('jam_pulang')
+            ->get();
 
-    // Hitung jumlah booking aktif
-    $activeBookingCount = $activeBookings->count();
+        // Hitung jumlah booking aktif
+        $activeBookingCount = $activeBookings->count();
 
-    // Ambil ID kendaraan yang sedang aktif dipakai
-    $activeKendaraanIds = $activeBookings->pluck('kendaraan_id')->unique();
+        // Ambil ID kendaraan yang sedang aktif dipakai
+        $activeKendaraanIds = $activeBookings->pluck('kendaraan_id')->unique();
 
-    // Hitung jumlah kendaraan yang belum dipakai (tersedia)
-    $availableCars = Kendaraan::whereNotIn('id', $activeKendaraanIds)->count();
+        // Hitung jumlah kendaraan yang belum dipakai (tersedia)
+        $availableCars = Kendaraan::whereNotIn('id', $activeKendaraanIds)->count();
 
-    // Tambahkan: Hitung total booking yang ditolak
-    $rejectedCount = Booking::where('status', 'rejected')->count();
+        // Tambahkan: Hitung total booking yang ditolak
+        $rejectedCount = Booking::where('status', 'rejected')->count();
 
-    return view('admin.dashboard', [
-        'kendaraans' => $kendaraans,
-        'bookings' => $bookings,
-        'activeBookingCount' => $activeBookingCount,
-        'availableCars' => $availableCars,
-        'rejectedCount' => $rejectedCount, // <== kirim ke view
-    ]);
-}
+        return view('admin.dashboard', [
+            'kendaraans' => $kendaraans,
+            'bookings' => $bookings,
+            'activeBookingCount' => $activeBookingCount,
+            'availableCars' => $availableCars,
+            'rejectedCount' => $rejectedCount, // <== kirim ke view
+        ]);
+    }
 
-            
+    public function show($id)
+    {
+        $booking = Booking::with(['kendaraans', 'user'])->findOrFail($id); // gunakan relasi jika ada
+        return view('admin.booking.show', compact('booking'));
+    }
+
+    public function edit($id)
+    {
+        $booking = Booking::findOrFail($id);
+        $kendaraans = Kendaraan::where('status', 'tersedia')->get();
+        return view('admin.bookings.edit', compact('booking', 'kendaraans'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $booking = Booking::findOrFail($id);
+        $bookings = Booking::with(['kendaraan', 'kendaraanPengganti'])->latest()->get();
+
+
+        $request->validate([
+            'kendaraan_pengganti_id' => 'required|exists:kendaraan,id',
+            'catatan_admin' => 'required|in:rusak,lainnya',
+        ]);
+
+        // Ubah status mobil awal ke "rusak"
+        $booking->kendaraan->update(['status' => 'rusak']);
+
+        // Ubah status mobil pengganti ke "tidak tersedia"
+        $mobilPengganti = Kendaraan::find($request->kendaraan_pengganti_id);
+        $mobilPengganti->update(['status' => 'tidak tersedia']);
+
+        // Update data booking
+        $booking->kendaraan_pengganti_id = $request->kendaraan_pengganti_id;
+        $booking->catatan_admin = $request->catatan_admin;
+        $booking->status = 'pending';
+        $booking->save();
+
+        return redirect()->route('admin.dashboard')->with('success', 'Booking berhasil diubah .');
+    }
+
 
     public function approve($id)
     {
@@ -80,7 +119,7 @@ class AdminDashboardController extends Controller
         return redirect()->back()->with('success', 'Booking disetujui dan email telah dikirim.');
     }
 
-public function reject($id)
+    public function reject($id)
     {
         $booking = Booking::with('user')->findOrFail($id);
         $booking->status = 'rejected';

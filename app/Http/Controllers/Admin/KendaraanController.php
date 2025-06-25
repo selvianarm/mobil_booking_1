@@ -23,10 +23,11 @@ class KendaraanController extends Controller
     {
         $request->validate([
             'jenis' => 'required|string|max:100',
+            'status' => 'required|in:tersedia,tidak tersedia,rusak',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $data = $request->only(['jenis']);
+        $data = $request->only(['jenis', 'status']);
 
         if ($request->hasFile('foto')) {
             $data['foto'] = $request->file('foto')->store('kendaraans', 'public');
@@ -55,10 +56,11 @@ class KendaraanController extends Controller
 
         $request->validate([
             'jenis' => 'required|string|max:100',
+            'status' => 'required|in:tersedia,tidak tersedia,rusak',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $data = $request->only(['jenis']);
+        $data = $request->only(['jenis','status']);
 
         if ($request->hasFile('foto')) {
             if ($kendaraans->foto) {

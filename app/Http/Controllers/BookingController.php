@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\Kendaraan;
 use App\Models\Laporan;
-use App\Models\Sopir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BookingNotification;
 
 class BookingController extends Controller
 {
@@ -32,6 +33,17 @@ class BookingController extends Controller
             'kondisi_body_pergi' => 'nullable|image',
             'kondisi_dalam_pergi' => 'nullable|image',
         ]);
+
+        // Cek apakah kendaraan sedang dibooking user lain dan belum selesai
+        $existingBooking = Booking::where('kendaraan_id', $request->kendaraan_id)
+        ->whereIn('status', ['pending', 'approved'])
+        ->whereNull('jam_pulang')
+        ->first();
+
+        if ($existingBooking) {
+        return back()->with('error', 'Kendaraan ini sedang dibooking dan belum tersedia.');
+        }
+
 
         // Simpan data booking
         $booking = new Booking();
@@ -67,6 +79,12 @@ class BookingController extends Controller
 
         $booking->save();
 
+        // Kirim email ke admin
+        $booking->load('user', 'kendaraan'); // pastikan relasi tersedia
+
+        Mail::to('selvianaramadani305@gmail.com')->send(new \App\Mail\BookingNotification($booking));
+
+
         // Redirect dengan flash
         return redirect()->route('user.dashboard')->with('success', 'Booking berhasil dikirim!');
     }
@@ -76,6 +94,20 @@ class BookingController extends Controller
         $booking = Booking::findOrFail($id);
 
         return view('booking.return', compact('booking'));
+    }
+    public function show($kendaraanId)
+    {
+        $booking = Booking::with(['user', 'kendaraan'])
+            ->where('kendaraan_id', $kendaraanId)
+            ->whereIn('status', ['pending', 'approved']) // penting
+            ->whereNull('jam_pulang')
+            ->first();
+
+        if (!$booking) {
+            return redirect()->back()->with('error', 'Booking tidak ditemukan.');
+        }
+
+        return view('booking.show', compact('booking'));
     }
 
     public function storeReturn(Request $request, $id)

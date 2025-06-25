@@ -30,9 +30,30 @@
                     <h3 class="font-bold text-xl mb-2">{{ $item->jenis }}</h3>
 
                     {{-- Status --}}
-                    <p class="font-semibold mb-1 {{ $active ? 'text-red-600' : 'text-green-600' }}">
-                        {{ $active ? 'Tidak Tersedia' : 'Tersedia' }}
-                    </p>
+                    <p class="font-semibold mb-1 
+    @if ($active && $active->status === 'pending') text-yellow-600
+    @elseif ($active) text-red-600
+    @elseif ($item->status === 'tersedia') text-green-600
+    @elseif ($item->status === 'tidak tersedia') text-red-600
+    @elseif ($item->status === 'rusak') text-yellow-600
+    @else text-gray-600
+    @endif
+">
+    @if ($active && $active->status === 'pending')
+        Menunggu Approval
+    @elseif ($active)
+        Sedang Digunakan
+    @elseif ($item->status === 'tersedia')
+        Tersedia
+    @elseif ($item->status === 'tidak tersedia')
+        Tidak Tersedia
+    @elseif ($item->status === 'rusak')
+        Rusak
+    @else
+        Status Tidak Diketahui
+    @endif
+</p>
+
 
                     {{-- Info pengguna aktif --}}
                     @if ($active)
@@ -45,18 +66,18 @@
 
                     {{-- Tombol Aksi --}}
             @if ($active)
-            {{-- Kendaraan sedang digunakan (oleh siapa pun) --}}
-            <a href="{{ route('user.booking.detail', ['kendaraan' => $item->id]) }}"
-               class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
-                Detail
-            </a>
-        @else
-            {{-- Kendaraan tersedia --}}
-            <a href="{{ route('user.booking.create', ['id' => $item->id]) }}"
-               class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                Booking
-            </a>
-        @endif
+                {{-- Kendaraan sedang digunakan (oleh siapa pun) --}}
+                <a href="{{ route('user.booking.detail', ['kendaraan' => $item->id]) }}"
+                    class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                    Detail
+                </a>
+            @else
+                {{-- Kendaraan tersedia --}}
+                <a href="{{ route('user.booking.create', ['id' => $item->id]) }}"
+                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    Booking
+                </a>
+            @endif
     </div>
 </div>
 @empty

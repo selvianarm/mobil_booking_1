@@ -83,6 +83,8 @@
                     <th class="px-5 py-3 font-semibold text-blue-800">ID</th>
                     <th class="px-5 py-3 font-semibold text-blue-800">Jenis</th>
                     <th class="px-5 py-3 font-semibold text-blue-800">Foto</th>
+                    <th class="px-5 py-3 font-semibold text-blue-800">Status</th>
+
                     <th class="px-5 py-3 font-semibold text-blue-800">Aksi</th>
                 </tr>
             </thead>
@@ -98,6 +100,17 @@
                                 <span class="inline-block bg-gray-100 text-gray-500 px-2 py-1 text-xs rounded">Tidak ada foto</span>
                             @endif
                         </td>
+                        <td>
+                            @if ($item->status == 'tersedia')
+                            <span class="badge bg-success">Tersedia</span>
+                        @elseif ($item->status == 'tidak tersedia')
+                            <span class="badge bg-secondary">Tidak Tersedia</span>
+                        @elseif ($item->status == 'rusak')
+                            <span class="badge bg-danger">Rusak</span>
+                        @endif
+                        
+                        </td>
+                        
                         <td class="px-5 py-4 flex flex-wrap gap-2">
                             <a href="{{ route('admin.kendaraan.detail', $item->id) }}" class="aksi-link text-blue-600">
                                 <i class="fas fa-eye"></i> Detail
@@ -112,6 +125,7 @@
                                 </button>
                             </form>
                         </td>
+                        
                     </tr>
                 @empty
                     <tr>

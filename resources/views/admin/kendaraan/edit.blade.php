@@ -48,6 +48,17 @@
             @error('foto') <small class="text-red-600">{{ $message }}</small> @enderror
         </div>
 
+        <div class="mb-3">
+            <label for="status" class="form-label">Status Kendaraan</label>
+            <select name="status" id="status" class="form-select bg-white text-dark" required>
+                <option value="tersedia" {{ old('status', $kendaraans->status) == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
+                <option value="tidak tersedia" {{ old('status', $kendaraans->status) == 'tidak tersedia' ? 'selected' : '' }}>Tidak Tersedia</option>
+                <option value="rusak" {{ old('status', $kendaraans->status) == 'rusak' ? 'selected' : '' }}>Rusak</option>
+            </select>
+            @error('status') <small class="text-danger">{{ $message }}</small> @enderror
+        </div>
+        
+        
         <button type="submit" class="btn btn-success">Update</button>
         <a href="{{ route('admin.kendaraan.index') }}" class="btn btn-secondary">Batal</a>
     </form>

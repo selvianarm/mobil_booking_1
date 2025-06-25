@@ -72,8 +72,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('karyawan', KaryawanController::class);
     Route::get('karyawan/{id}/detail', [KaryawanController::class, 'detail'])->name('karyawan.detail');
 
-    // Booking approval
+    // Booking 
     Route::get('bookings', [BookingAdminController::class, 'index'])->name('booking.index');
+    Route::get('/admin/bookings/{id}/edit', [AdminDashboardController::class, 'edit'])->name('admin.booking.edit');
+    Route::get('/admin/booking/{id}', [AdminDashboardController::class, 'update'])->name('admin.booking.update');
     Route::post('booking/{id}/approve', [AdminDashboardController::class, 'approve'])->name('booking.approve');
     Route::post('booking/{id}/rejected', [AdminDashboardController::class, 'reject'])->name('booking.rejected');
 
@@ -100,7 +102,9 @@ Route::middleware(['auth', 'role:user'])->prefix('booking')->name('booking.')->g
 Route::middleware(['auth', 'role:user'])->prefix('user')->name('user.')->group(function () {
     Route::get('/booking/create/{id}', [BookingController::class, 'create'])->name('booking.create');
     Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
-    Route::get('/booking/{kendaraan}/detail', [DashboardController::class, 'show'])->name('booking.detail');
+    Route::get('/booking/{kendaraan}/detail', [DashboardController::class, 'show'])
+            ->name('booking.detail')
+            ->middleware('auth');
     Route::get('/booking/return/{id}', [BookingController::class, 'showReturnForm'])->name('booking.return');
     Route::patch('/booking/{booking}/return', [BookingController::class, 'return'])->name('user.booking.return');
     Route::post('/booking/return/{id}', [BookingController::class, 'storeReturn'])->name('booking.return.store');
@@ -115,3 +119,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 //mendownload jadi file pdf
 Route::get('/export-pdf', [PDFController::class, 'export']);
 Route::get('/admin/laporan/{id}/download', [LaporanController::class, 'downloadPdf'])->name('admin.laporan.download');
+
+
+Route::get('/admin/booking/{id}', [BookingController::class, 'show'])->name('admin.booking.show');
+Route::get('/admin/bookings/{id}/edit', [AdminDashboardController::class, 'edit'])->name('admin.bookings.edit');
+Route::get('/admin/bookings/{id}/update', [AdminDashboardController::class, 'update'])->name('admin.bookings.update');
