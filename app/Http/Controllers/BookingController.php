@@ -12,6 +12,42 @@ use App\Mail\BookingNotification;
 
 class BookingController extends Controller
 {
+    public function index()
+    {
+        $kendaraans = Kendaraan::all();
+
+        // Ambil semua booking yang masih aktif (belum pulang), tidak dibatasi oleh user_id
+        $activeBookings = Booking::with('user', 'kendaraan')
+            ->whereIn('status', ['pending', 'approved'])
+            ->whereNull('jam_pulang')
+            ->get()
+            ->keyBy('kendaraan_id');
+
+
+        // Hitung berapa kendaraan yang sedang user ini pakai (booking aktif milik user)
+        $activeBookingCount = $activeBookings->count();
+
+        // Kendaraan yang tersedia (belum dibooking)
+        $availableCars = Kendaraan::whereNotIn('id', $activeBookings->keys())->count();
+        // Booking milik user yang masih pending
+        $pendingApprovals = Booking::where('status', 'pending')
+            ->count();
+
+        // Booking milik user yang sudah selesai (jam_pulang sudah terisi)
+        $totalTrips = Booking::whereNotNull('jam_pulang')
+            ->count();
+
+        return view('components.userHeader', [
+            'kendaraans' => $kendaraans,
+            'activeBookings' => $activeBookings,
+            'activeBookingCount' => $activeBookingCount,
+            'availableCars' => $availableCars,
+            'pendingApprovals' => $pendingApprovals,
+            'totalTrips' => $totalTrips
+        ]);
+
+    }
+    
     public function create($id)
     {
         $selectedKendaraan = Kendaraan::findOrFail($id);
@@ -148,6 +184,7 @@ class BookingController extends Controller
                 'booking_id'            => $booking->id,
                 'user_id'               => $booking->user_id,
                 'kendaraan_id'          => $booking->kendaraan_id,
+                'kendaraan_pengganti_id' => $booking->kendaraan_pengganti_id,
                 'tanggal'               => $booking->tanggal,
                 'tujuan'                => $booking->tujuan,
                 'jam_pergi'             => $booking->jam_pergi,
@@ -163,53 +200,11 @@ class BookingController extends Controller
                 'status'                => 'selesai',
                 'nomor_telepon'         => $booking->nomor_telepon,
                 'nama'                  => $booking->nama,
+                'catatan_admin' => $booking->catatan_admin,
+
             ]);
         }
 
         return redirect()->route('user.dashboard')->with('success', 'Mobil berhasil dikembalikan dan laporan disimpan.');
     }
-
-    // public function store(Request $request)
-    // {
-    //     $validated = $request->validate([
-    //         'tanggal' => 'required|date',
-    //         'kendaraan_id' => 'required|exists:kendaraans,id',
-    //         'sopir_id' => 'required|exists:sopirs,id',
-    //         'nomor_telepon' => 'required|string|max:25',
-    //         'tujuan' => 'required|string',
-    //         'km_pergi' => 'required|integer',
-    //         'km_pulang' => 'nullable|integer',
-    //         'jam_pergi' => 'required',
-    //         'jam_pulang' => 'nullable',
-    //         'bensin_pergi' => 'nullable|image',
-    //         'bensin_pulang' => 'nullable|image',
-    //         'kondisi_body_pergi' => 'nullable|image',
-    //         'kondisi_body_pulang' => 'nullable|image',
-    //         'kondisi_dalam_pergi' => 'nullable|image',
-    //         'kondisi_dalam_pulang' => 'nullable|image',
-    //     ]);
-
-
-    //     $bookings = new \App\Models\Booking();
-    //     $bookings->fill($validated);
-    //     $bookings->user_id = auth()->id(); 
-
-    //     // Upload file
-    //     $uploadField = fn($name) => $request->hasFile($name) 
-    //         ? $request->file($name)->store('uploads', 'public') 
-    //         : null;
-
-    //     $bookings->bensin_pergi = $uploadField('bensin_pergi');
-    //     $bookings->bensin_pulang = $uploadField('bensin_pulang');
-    //     $bookings->kondisi_body_pergi = $uploadField('kondisi_body_pergi');
-    //     $bookings->kondisi_body_pulang = $uploadField('kondisi_body_pulang');
-    //     $bookings->kondisi_dalam_pergi = $uploadField('kondisi_dalam_pergi');
-    //     $bookings->kondisi_dalam_pulang = $uploadField('kondisi_dalam_pulang');
-
-    //     $bookings->save();
-
-    //     return redirect()->route('dashboard')->with('success', 'Booking berhasil disimpan!');
-
-
-
 }

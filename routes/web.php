@@ -38,12 +38,19 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::middleware(['auth', 'role:admin'])->group(function () {});
 
 // User Routes
-Route::middleware(['auth', 'role:user'])->group(function () {
-    Route::get('/user/dashboard', [App\Http\Controllers\User\KendaraanController::class, 'index'])->name('user.dashboard');
-});
+// Route::middleware(['auth', 'role:user'])->group(function () {
+//     Route::get('/user/dashboard', [App\Http\Controllers\User\KendaraanController::class, 'index'])->name('user.dashboard');
+// });
 
+// NAVIGASI
 //user dashboard
-Route::get('/user/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('user.dashboard')->middleware(['auth', 'role:user']);
+Route::get('/booking', [\App\Http\Controllers\DashboardController::class, 'index'])->name('user.dashboard')->middleware(['auth', 'role:user']);
+// Booking (Halaman Booking)
+Route::get('/user/dashboard', [BookingController::class, 'index'])->name('user.booking');
+
+// Kontak (Langsung ke anchor pada halaman yang sama atau halaman kontak terpisah)
+Route::view('/kontak', 'kontak')->name('kontak');
+
 // Profile
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -110,9 +117,10 @@ Route::middleware(['auth', 'role:user'])->prefix('user')->name('user.')->group(f
     Route::post('/booking/return/{id}', [BookingController::class, 'storeReturn'])->name('booking.return.store');
 });
 
-//status di user
+// Dashboard (Beranda)
+// Route::get('/dashboard', [DashboardController::class, 'index'])->name('user.dashboard');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.user');
+
 
 
 // laporan
@@ -124,3 +132,8 @@ Route::get('/admin/laporan/{id}/download', [LaporanController::class, 'downloadP
 Route::get('/admin/booking/{id}', [BookingController::class, 'show'])->name('admin.booking.show');
 Route::get('/admin/bookings/{id}/edit', [AdminDashboardController::class, 'edit'])->name('admin.bookings.edit');
 Route::get('/admin/bookings/{id}/update', [AdminDashboardController::class, 'update'])->name('admin.bookings.update');
+
+//download pdf bulanan
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/laporan/download', [LaporanController::class, 'downloadBulan'])->name('laporan.download');
+});

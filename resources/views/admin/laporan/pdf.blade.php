@@ -36,10 +36,12 @@
         <p><strong>Jam Pergi:</strong> {{ $laporan->jam_pergi }}</p>
         <p><strong>Jam Pulang:</strong> {{ $laporan->jam_pulang }}</p>
         <p><strong>Tujuan:</strong> {{ $laporan->tujuan }}</p>
+        <p><strong>Catatan Admin:</strong> {{ $laporan->catatan_admin }}</p>
     </div>
 
     <div class="section">
-        <p><strong>Kendaraan:</strong> {{ $laporan->kendaraan->jenis ?? '-' }}</p>
+        <p><strong>Kendaraan Awal:</strong> {{ $laporan->kendaraan->jenis ?? '-' }}</p>
+        <p><strong>Kendaraan Pengganti :</strong> {{ $laporan->kendaraanPengganti->jenis ?? '-' }}</p>
     </div>
 
     <div class="section">

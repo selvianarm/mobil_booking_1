@@ -85,10 +85,12 @@ class AdminDashboardController extends Controller
         $mobilPengganti->update(['status' => 'tidak tersedia']);
 
         // Update data booking
-        $booking->kendaraan_pengganti_id = $request->kendaraan_pengganti_id;
-        $booking->catatan_admin = $request->catatan_admin;
-        $booking->status = 'pending';
-        $booking->save();
+$booking->kendaraan_pengganti_id = $request->kendaraan_pengganti_id;
+$booking->catatan_admin = $request->catatan_admin;
+
+
+$booking->status = 'pending';
+$booking->save();
 
         return redirect()->route('admin.dashboard')->with('success', 'Booking berhasil diubah .');
     }
@@ -131,6 +133,7 @@ class AdminDashboardController extends Controller
                 'booking_id'     => $booking->id,
                 'user_id'        => $booking->user_id,
                 'kendaraan_id'   => $booking->kendaraan_id,
+                'kendaraan_pengganti_id' => $booking->kendaraan_pengganti_id,
                 'tanggal'        => $booking->tanggal,
                 'tujuan'         => $booking->tujuan,
                 'jam_pergi'      => $booking->jam_pergi,
@@ -138,6 +141,7 @@ class AdminDashboardController extends Controller
                 'status'         => 'rejected',
                 'nomor_telepon'         => $booking->nomor_telepon,
                 'nama'                  => $booking->nama,
+                'catatan_admin' => $booking->catatan_admin,
             ]);
         }
 

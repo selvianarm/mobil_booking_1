@@ -13,6 +13,7 @@
 <div class="booking-wrapper">
     <form action="{{ route('user.booking.return.store', $booking->id) }}" method="POST" enctype="multipart/form-data" class="booking-form">
         @csrf
+
         <div class="form-title">
             <h1>Form Pengembalian</h1>
             <h3>Harap isi data kondisi kendaraan saat dikembalikan</h3>
@@ -30,6 +31,11 @@
         </div>
 
         <div class="form-group">
+            <label for="tanggal_pulang">Tanggal Pengembalian:</label>
+            <input type="date" id="tanggal_pulang" name="tanggal_pulang" value="{{ date('Y-m-d') }}" required>
+        </div>
+
+        <div class="form-group">
             <label for="km_pulang">KM Pulang:</label>
             <input type="number" id="km_pulang" name="km_pulang" required>
         </div>
@@ -39,19 +45,19 @@
             <input type="time" id="jam_pulang" name="jam_pulang" required>
         </div>
 
-        <div class="form-row">
-            <label>Indikator Bensin Pulang:</label>
-            <input type="file" name="bensin_pulang" accept="image/*">
+        <div class="form-group">
+            <label for="bensin_pulang">Indikator Bensin Pulang:</label>
+            <input type="file" id="bensin_pulang" name="bensin_pulang" accept="image/*">
         </div>
 
-        <div class="form-row">
-            <label>Kondisi Body Pulang:</label>
-            <input type="file" name="kondisi_body_pulang" accept="image/*">
+        <div class="form-group">
+            <label for="kondisi_body_pulang">Kondisi Body Pulang:</label>
+            <input type="file" id="kondisi_body_pulang" name="kondisi_body_pulang" accept="image/*">
         </div>
 
-        <div class="form-row">
-            <label>Kondisi Dalam Pulang:</label>
-            <input type="file" name="kondisi_dalam_pulang" accept="image/*">
+        <div class="form-group">
+            <label for="kondisi_dalam_pulang">Kondisi Dalam Pulang:</label>
+            <input type="file" id="kondisi_dalam_pulang" name="kondisi_dalam_pulang" accept="image/*">
         </div>
 
         <button type="submit" class="btn-submit">Submit Pengembalian</button>
@@ -59,14 +65,14 @@
 </div>
 
 @if(session('success'))
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: 'Pengembalian Berhasil!',
-            text: 'Data pengembalian telah tercatat.',
-            confirmButtonText: 'OK'
-        });
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Pengembalian Berhasil!',
+        text: 'Data pengembalian telah tercatat.',
+        confirmButtonText: 'OK'
+    });
+</script>
 @endif
 @endsection

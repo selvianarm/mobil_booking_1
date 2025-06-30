@@ -18,6 +18,7 @@ class Laporan extends Model
         'jam_pulang',
         'tujuan',
         'kendaraan_id',
+        'kendaraan_pengganti_id',
         'km_pergi',
         'km_pulang',
         'bensin_pergi',
@@ -27,6 +28,7 @@ class Laporan extends Model
         'kondisi_dalam_pergi',
         'kondisi_dalam_pulang',
         'status',
+        'catatan_admin',
         'nama',
     ];
 
@@ -42,4 +44,8 @@ class Laporan extends Model
         return $this->belongsTo(Kendaraan::class);
     }
 
+    public function kendaraanPengganti()
+{
+    return $this->belongsTo(Kendaraan::class, 'kendaraan_pengganti_id');
+}
 }

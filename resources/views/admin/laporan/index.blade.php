@@ -152,6 +152,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 <script>
     $(document).ready(function () {
+        
         $('#laporanTable').DataTable({
             responsive: true,
             pageLength: 10,
@@ -242,6 +243,42 @@ div.dataTables_wrapper div.dataTables_paginate {
             }
             return $(node).text(); // fallback jika bukan gambar
         }
+        // Dapatkan instance DataTable
+var table = $('#laporanTable').DataTable();
+
+// Filter berdasarkan bulan dari tanggal di kolom ke-2
+$('#filterBulan').on('change', function () {
+    var selectedMonth = $(this).val();
+
+    table.rows().every(function () {
+        var tanggal = this.data()[2]; // Kolom ke-2 = Tanggal
+        var showRow = true;
+
+        if (selectedMonth) {
+            // Ambil nilai bulan dari tanggal, misalnya "2024-09-20"
+            var match = tanggal.match(/(\d{4})-(\d{2})-(\d{2})/);
+            if (match) {
+                var bulan = match[2]; // "09"
+                showRow = bulan === selectedMonth;
+            } else {
+                showRow = false;
+            }
+        }
+
+        if (showRow) {
+            $(this.node()).show();
+        } else {
+            $(this.node()).hide();
+        }
+    });
+});
+const bulanFilter = document.getElementById('bulanFilter');
+    const bulanHiddenInput = document.getElementById('bulanHiddenInput');
+
+    bulanFilter.addEventListener('change', function () {
+        bulanHiddenInput.value = this.value;
+    });
+
     });
 </script>
 
@@ -259,20 +296,51 @@ div.dataTables_wrapper div.dataTables_paginate {
             {{ session('success') }}
         </div>
     @endif
-
     <div class="bg-white p-4 rounded-lg shadow-lg overflow-x-auto">
+        <div class="mb-4 flex flex-wrap gap-4 items-center justify-between">
+            <div class="flex items-center gap-2">
+                <label for="filterBulan" class="text-sm text-gray-700">Filter Bulan:</label>
+                <select id="filterBulan" class="border border-gray-300 rounded px-2 py-1 text-sm">
+                    <option value="">Semua</option>
+                    <option value="01">Januari</option>
+                    <option value="02">Februari</option>
+                    <option value="03">Maret</option>
+                    <option value="04">April</option>
+                    <option value="05">Mei</option>
+                    <option value="06">Juni</option>
+                    <option value="07">Juli</option>
+                    <option value="08">Agustus</option>
+                    <option value="09">September</option>
+                    <option value="10">Oktober</option>
+                    <option value="11">November</option>
+                    <option value="12">Desember</option>
+                </select>
+
+
+                <form id="downloadPdfForm" method="GET" action="{{ route('admin.laporan.download') }}" target="_blank">
+                    <input type="hidden" name="bulan" id="bulanHiddenInput">
+                    <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded text-sm shadow hover:bg-red-600">
+                        <i class="fas fa-file-pdf mr-1"></i> Download PDF Bulan Ini
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+       
+        
+
         <table id="laporanTable" class="min-w-full text-sm text-gray-800">
             <thead class="bg-blue-50 text-blue-800 uppercase text-xs font-semibold border-b">
                 <tr>
                     <th class="px-3 py-3">No</th>
                     <th class="px-3 py-3">Nama Karyawan</th>
-                    
-                    <th class="px-3 py-3">Tanggal</th>
-                    <th class="px-3 py-3">Kendaraan</th>
+                    <th class="px-3 py-3">Tgl/Jam Pergi</th>
+                    <th class="px-3 py-3">Tgl/Jam Pulang</th>
+                    <th class="px-3 py-3">Mobil Awal</th>
+                    <th class="px-3 py-3">Mobil Pengganti</th>
                     <th class="px-3 py-3">Nama Peminjam</th>
                     <th class="px-3 py-3">Tujuan</th>
                     <th class="px-3 py-3">KM Pergi/Pulang</th>
-                    <th class="px-3 py-3">Jam Pergi - Pulang</th>
                     <th class="px-3 py-3">Kondisi Body Pergi</th>
                     <th class="px-3 py-3">Kondisi Body Pulang</th>
                     <th class="px-3 py-3">Kondisi Dalam Pergi</th>
@@ -280,6 +348,7 @@ div.dataTables_wrapper div.dataTables_paginate {
                     <th class="px-3 py-3">Bensin Pergi</th>
                     <th class="px-3 py-3">Bensin Pulang</th>
                     <th class="px-3 py-3">Status</th>
+                    <th class="px-3 py-3">Catatan Admin</th>
                     <th class="px-3 py-3">Detail</th>
                 </tr>
             </thead>
@@ -288,54 +357,58 @@ div.dataTables_wrapper div.dataTables_paginate {
                     <tr class="border-b hover:bg-gray-50 transition duration-150">
                         <td class="px-3 py-2">{{ ($laporan->currentPage() - 1) * $laporan->perPage() + $loop->iteration }}</td>
                         <td class="px-3 py-2">{{ $booking->user->nama ?? '-' }}</td>
-                        <td class="px-3 py-2">{{ $booking->tanggal }}</td>
+                        <td class="px-3 py-2">
+                            {{ $booking->tanggal }}<br>
+                            <small class="text-gray-500">{{ $booking->jam_pergi ?? '-' }}</small>
+                        </td>
+                        <td class="px-3 py-2">
+                            {{ $booking->tanggal }}<br>
+                            <small class="text-gray-500">{{ $booking->jam_pulang ?? '-' }}</small>
+                        </td>
                         <td class="px-3 py-2">{{ $booking->kendaraan->jenis ?? '-' }}</td>
+                        <td class="px-3 py-2">{{ $booking->kendaraanPengganti->jenis ?? '-' }}</td>
                         <td class="px-3 py-2">{{ $booking->nama ?? '-' }}</td>
                         <td class="px-3 py-2">{{ $booking->tujuan }}</td>
                         <td class="px-3 py-2">{{ $booking->km_pergi ?? '-' }} / {{ $booking->km_pulang ?? '-' }}</td>
-                        <td class="px-3 py-2">{{ $booking->jam_pergi ?? '-' }} - {{ $booking->jam_pulang ?? '-' }}</td>
-
+                        
                         <td class="px-3 py-2">
                             @if ($booking->kondisi_body_pergi)
-                                <img src="{{ Storage::url($booking->kondisi_body_pergi) }}"class="w-12 h-12 object-cover">
+                                <img src="{{ Storage::url($booking->kondisi_body_pergi) }}" class="w-12 h-12 object-cover">
                             @else
                                 <span>-</span>
                             @endif
                         </td>
                         <td class="px-3 py-2">
                             @if ($booking->kondisi_body_pulang)
-                                <img src="{{ Storage::url($booking->kondisi_body_pulang) }}"class="w-12 h-12 object-cover">
+                                <img src="{{ Storage::url($booking->kondisi_body_pulang) }}" class="w-12 h-12 object-cover">
                             @else
                                 <span>-</span>
                             @endif
                         </td>
                         <td class="px-3 py-2">
                             @if ($booking->kondisi_dalam_pergi)
-                                <img src="{{ Storage::url($booking->kondisi_dalam_pergi) }}"  class="w-12 h-12 object-cover">
+                                <img src="{{ Storage::url($booking->kondisi_dalam_pergi) }}" class="w-12 h-12 object-cover">
                             @else
                                 <span>-</span>
                             @endif
                         </td>
                         <td class="px-3 py-2">
                             @if ($booking->kondisi_dalam_pulang)
-                                <img src="{{ Storage::url($booking->kondisi_dalam_pulang) }}"class="w-12 h-12 object-cover">
+                                <img src="{{ Storage::url($booking->kondisi_dalam_pulang) }}" class="w-12 h-12 object-cover">
                             @else
                                 <span>-</span>
                             @endif
                         </td>
-
                         <td class="px-3 py-2">
                             @if ($booking->bensin_pergi)
-                            <img src="{{ Storage::url($booking->bensin_pergi) }}" class="w-12 h-12 object-cover">
-                        @else
-                            <span>-</span>
-                        @endif
-                                            
+                                <img src="{{ Storage::url($booking->bensin_pergi) }}" class="w-12 h-12 object-cover">
+                            @else
+                                <span>-</span>
+                            @endif
                         </td>
-
                         <td class="px-3 py-2">
                             @if ($booking->bensin_pulang)
-                                <img src="{{ Storage::url($booking->bensin_pulang) }}"class="w-12 h-12 object-cover">
+                                <img src="{{ Storage::url($booking->bensin_pulang) }}" class="w-12 h-12 object-cover">
                             @else
                                 <span>-</span>
                             @endif
@@ -350,6 +423,7 @@ div.dataTables_wrapper div.dataTables_paginate {
                                 {{ ucfirst($booking->status) }}
                             </span>
                         </td>
+                        <td class="px-3 py-2">{{ $booking->catatan_admin }}</td>
                         <td class="px-3 py-2 text-center">
                             <a href="{{ route('admin.laporan.show', $booking->id) }}" class="text-indigo-600 hover:text-indigo-800 font-medium mr-2">
                                 <i class="fas fa-eye"></i> Detail
@@ -358,7 +432,7 @@ div.dataTables_wrapper div.dataTables_paginate {
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="15" class="text-center py-4 text-gray-500">Data laporan tidak tersedia.</td>
+                        <td colspan="18" class="text-center py-4 text-gray-500">Data laporan tidak tersedia.</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -366,3 +440,4 @@ div.dataTables_wrapper div.dataTables_paginate {
     </div>
 </div>
 @endsection
+

@@ -19,7 +19,8 @@
             <th>No</th>
             <th>Nama Karyawan</th>
             <th>Tanggal</th>
-            <th>Kendaraan</th>
+            <th>Kendaraan Awal</th>
+            <th>Kendaraan Pengganti</th>
             <th>Nama Peminjam</th>
             <th>Tujuan</th>
             <th>KM Pergi / Pulang</th>
@@ -28,6 +29,7 @@
             <th>Kondisi Body Pulang</th>
             <th>Kondisi Dalam Pergi</th>
             <th>Kondisi Dalam Pulang</th>
+            <th>Catatan Admin</th>
         </tr>
     </thead>
     <tbody>
@@ -37,6 +39,7 @@
             <td>{{ $row->user->name ?? '-' }}</td>
             <td>{{ $row->tanggal }}</td>
             <td>{{ $row->kendaraan->nama ?? '-' }}</td>
+            <td>{{ $row->kendaraanPengganti->nama ?? '-' }}</td>
             <td>{{ $row->nama_peminjam }}</td>
             <td>{{ $row->tujuan }}</td>
             <td>{{ $row->km_pergi }} / {{ $row->km_pulang }}</td>
@@ -45,6 +48,8 @@
             <td>{{ $row->kondisi_body_pulang }}</td>
             <td>{{ $row->kondisi_dalam_pergi }}</td>
             <td>{{ $row->kondisi_dalam_pulang }}</td>
+            <td>{{ $row->catatan_admin }}</td>
+
         </tr>
         @endforeach
     </tbody>

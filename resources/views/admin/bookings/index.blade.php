@@ -101,6 +101,7 @@
                             <th>Mobil Pengganti</th>
                             <th>Tanggal</th>
                             <th>Status</th>
+                            <th>Catatan Admin</th>
                             <th>Detail</th>
                         </tr>
                     </thead>
@@ -131,6 +132,7 @@
                                         {{ ucfirst($booking->status) }}
                                     </span>
                                 </td>
+                                <td>{{ $booking->catatan_admin ?? '-' }}</td>
                                 <td>
                                     <a href="{{ route('admin.booking.show', $booking->id) }}" class="text-indigo-600 hover:text-indigo-800 font-medium mr-2">
                                         <i class="fas fa-eye"></i> Detail

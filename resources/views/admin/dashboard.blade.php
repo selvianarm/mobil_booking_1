@@ -58,8 +58,8 @@
                             <th>Tanggal</th>
                             <th>Status</th>
                             <th>Aksi</th>
+                            <th>Catatan Admin</th>
                             <th>Detail</th>
-
                         </tr>
                     </thead>
                     <tbody>
@@ -90,6 +90,7 @@
                                         <button class="btn btn-danger btn-sm">Tolak</button>
                                     </form>
                                 </td>
+                                <td>{{ $booking->catatan_admin ?? '-' }}</td>
                                 <td>
                                     <a href="{{ route('admin.booking.show', $booking->id) }}" class="text-indigo-600 hover:text-indigo-800 font-medium mr-2">
                                         <i class="fas fa-eye"></i> Detail

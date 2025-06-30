@@ -23,8 +23,10 @@
             </div>
             <div>
                 <p><span class="font-semibold">Kendaraan:</span> {{ $laporan->kendaraan->jenis ?? '-' }}</p>
+                <p><span class="font-semibold">Kendaraan Pengganti:</span> {{ $laporan->kendaraanPengganti->jenis ?? '-' }}</p>
                 <p><span class="font-semibold">KM Pergi:</span> {{ $laporan->km_pergi }}</p>
                 <p><span class="font-semibold">KM Pulang:</span> {{ $laporan->km_pulang }}</p>
+                <p><span class="font-semibold">Catatan Admin:</span> {{ $laporan->catatan_admin}}</p>
             </div>
         </div>
 

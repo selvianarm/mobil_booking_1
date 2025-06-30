@@ -83,5 +83,21 @@ class LaporanController extends Controller
 
         return $pdf->download('laporan-detail-'.$id.'.pdf');
     }
+    public function downloadBulan(Request $request)
+{
+    $bulan = $request->input('bulan'); // Ambil nilai bulan
+
+    // Ambil data berdasarkan bulan
+    $laporan = Booking::whereIn('status', ['rejected', 'selesai'])
+        ->whereMonth('created_at', $bulan)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    // Generate PDF
+    $pdf = \PDF::loadView('admin.laporan.pdf', compact('laporan', 'bulan'));
+
+    return $pdf->download("laporan-bulan-$bulan.pdf");
+}
+
 
 }
