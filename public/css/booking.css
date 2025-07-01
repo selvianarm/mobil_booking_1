@@ -1,0 +1,88 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+.booking-wrapper {
+    max-width: 700px;
+    margin: 40px auto;
+    background-color: #dce8f0;
+    padding: 30px;
+    border-radius: 20px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.form-title {
+    text-align: center;
+    color: #0b2e59;
+    margin-bottom: 20px;
+    h1 {
+        font-weight: bold;
+        font-size: 24px;
+    }
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #0b2e59;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="date"],
+input[type="time"],
+input[type="number"],
+select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    color: #000000;
+}
+
+input[type="file"] {
+    border: none;
+}
+
+.form-section {
+    background-color: #e9eef3;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.form-section legend {
+    font-weight: bold;
+    color: #0b2e59;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-submit {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #0b2e59;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-top: 20px;
+}
