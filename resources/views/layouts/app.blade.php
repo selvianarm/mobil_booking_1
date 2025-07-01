@@ -141,9 +141,9 @@
             <button id="toggle-btn" class="nav-toggle">☰</button>
 
           <ul id="topnav-menu" class="nav-menu">
-              <li><a href="{{ route('user.booking') }}" class="text-sm px-4 py-2 rounded-md inline-block hover:bg-blue-200">Beranda</a></li>
-            <li><a href="{{ route('user.dashboard') }}" class="text-sm px-4 py-2 rounded-md inline-block hover:bg-blue-200">Booking</a></li>
-            <li><a href="{{ route('kontak') }}" class="text-sm px-4 py-2 rounded-md inline-block hover:bg-blue-200">Kontak</a></li>
+              <li><a href="{{ route('user.dashboard') }}" class="text-sm px-4 py-2 rounded-md inline-block hover:bg-blue-200">Beranda</a></li>
+            <li><a href="{{ route('user.booking') }}" class="text-sm px-4 py-2 rounded-md inline-block hover:bg-blue-200">Booking</a></li>
+            <li><a href="{{ route('user.kontak') }}" class="text-sm px-4 py-2 rounded-md inline-block hover:bg-blue-200">Kontak</a></li>
     
     @auth
     <li>

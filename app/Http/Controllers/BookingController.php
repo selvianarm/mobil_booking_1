@@ -16,13 +16,18 @@ class BookingController extends Controller
     {
         $kendaraans = Kendaraan::all();
 
-        // Ambil semua booking yang masih aktif (belum pulang), tidak dibatasi oleh user_id
-        $activeBookings = Booking::with('user', 'kendaraan')
-            ->whereIn('status', ['pending', 'approved'])
-            ->whereNull('jam_pulang')
-            ->get()
-            ->keyBy('kendaraan_id');
+        $rawBookings = Booking::with('user', 'kendaraan')
+    ->whereIn('status', ['pending', 'approved'])
+    ->whereNull('jam_pulang')
+    ->get();
 
+$activeBookings = collect();
+
+foreach ($rawBookings as $booking) {
+    // Ambil kendaraan aktif yang digunakan (asli atau pengganti)
+    $usedKendaraanId = $booking->kendaraan_pengganti_id ?? $booking->kendaraan_id;
+    $activeBookings[$usedKendaraanId]=$booking;
+}
 
         // Hitung berapa kendaraan yang sedang user ini pakai (booking aktif milik user)
         $activeBookingCount = $activeBookings->count();
@@ -37,7 +42,7 @@ class BookingController extends Controller
         $totalTrips = Booking::whereNotNull('jam_pulang')
             ->count();
 
-        return view('components.userHeader', [
+        return view('user.booking', [
             'kendaraans' => $kendaraans,
             'activeBookings' => $activeBookings,
             'activeBookingCount' => $activeBookingCount,
@@ -131,20 +136,24 @@ class BookingController extends Controller
 
         return view('booking.return', compact('booking'));
     }
-    public function show($kendaraanId)
-    {
-        $booking = Booking::with(['user', 'kendaraan'])
-            ->where('kendaraan_id', $kendaraanId)
-            ->whereIn('status', ['pending', 'approved']) // penting
-            ->whereNull('jam_pulang')
-            ->first();
+    public function show(Kendaraan $kendaraan)
+{
+    $booking = Booking::with(['user'])
+        ->where(function ($query) use ($kendaraan) {
+            $query->where('kendaraan_id', $kendaraan->id)
+                  ->orWhere('kendaraan_pengganti_id', $kendaraan->id);
+        })
+        ->whereIn('status', ['approved', 'pending'])
+        ->latest()
+        ->first();
 
-        if (!$booking) {
-            return redirect()->back()->with('error', 'Booking tidak ditemukan.');
-        }
-
-        return view('booking.show', compact('booking'));
+    if (!$booking) {
+        return redirect()->route('user.dashboard')->with('error', 'Booking aktif tidak ditemukan.');
     }
+
+    return view('user.booking.detail', compact('kendaraan','booking'));
+}
+
 
     public function storeReturn(Request $request, $id)
     {

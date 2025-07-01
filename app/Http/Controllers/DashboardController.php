@@ -120,11 +120,15 @@ public function return(Request $request, Booking $booking)
 //     return view('user.booking.detail', compact('kendaraan', 'booking'));
 // }
 
-public function show(Kendaraan $kendaraan)
+
+    public function show(Kendaraan $kendaraan)
 {
-    // ambil booking aktif kendaraan (yang disetujui)
-    $booking = $kendaraan->bookings()
-        ->where('status', 'approved')
+    $booking = Booking::with(['user'])
+        ->where(function ($query) use ($kendaraan) {
+            $query->where('kendaraan_id', $kendaraan->id)
+                  ->orWhere('kendaraan_pengganti_id', $kendaraan->id);
+        })
+        ->whereIn('status', ['approved', 'pending'])
         ->latest()
         ->first();
 
@@ -132,8 +136,10 @@ public function show(Kendaraan $kendaraan)
         return redirect()->route('user.dashboard')->with('error', 'Booking aktif tidak ditemukan.');
     }
 
-    return view('user.booking.detail', compact('kendaraan', 'booking'));
+    return view('user.booking.detail', compact('kendaraan','booking'));
+}
+
 }
 
 
-}
+

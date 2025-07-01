@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\Kendaraan;
 use Illuminate\Support\Facades\Http;
 use App\Models\Booking;
+use App\Models\Laporan;
 
 class AdminDashboardController extends Controller
 {

@@ -44,12 +44,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {});
 
 // NAVIGASI
 //user dashboard
-Route::get('/booking', [\App\Http\Controllers\DashboardController::class, 'index'])->name('user.dashboard')->middleware(['auth', 'role:user']);
+// Route::get('/booking', [\App\Http\Controllers\DashboardController::class, 'index'])->name('user.dashboard')->middleware(['auth', 'role:user']);
 // Booking (Halaman Booking)
-Route::get('/user/dashboard', [BookingController::class, 'index'])->name('user.booking');
+// Route::get('/user/dashboard', [BookingController::class, 'index'])->name('user.booking');
+// Route::get('/user/dashboard', [BookingController::class, 'index'])->name('user.booking');
+
 
 // Kontak (Langsung ke anchor pada halaman yang sama atau halaman kontak terpisah)
-Route::view('/kontak', 'kontak')->name('kontak');
+// Route::view('/kontak', 'kontak')->name('kontak');
 
 // Profile
 Route::middleware('auth')->group(function () {
@@ -115,6 +117,14 @@ Route::middleware(['auth', 'role:user'])->prefix('user')->name('user.')->group(f
     Route::get('/booking/return/{id}', [BookingController::class, 'showReturnForm'])->name('booking.return');
     Route::patch('/booking/{booking}/return', [BookingController::class, 'return'])->name('user.booking.return');
     Route::post('/booking/return/{id}', [BookingController::class, 'storeReturn'])->name('booking.return.store');
+
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/booking', [BookingController::class, 'index'])->name('booking');
+    Route::get('/kontak', function () {
+        return view('user.kontak');
+    })->name('kontak');
+    
 });
 
 // Dashboard (Beranda)

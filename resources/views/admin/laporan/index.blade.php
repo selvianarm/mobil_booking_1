@@ -196,7 +196,7 @@ div.dataTables_wrapper div.dataTables_paginate {
                     extend: 'pdfHtml5',
                     text: 'PDF',
                     orientation: 'landscape',
-                    pageSize: 'A3',
+                    pageSize: 'A1',
                     exportOptions: {
                         columns: ':visible',
                         modifier: {
