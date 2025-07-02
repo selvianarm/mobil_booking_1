@@ -16,7 +16,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: radial-gradient(ellipse at center, rgb(238, 187, 125) 0%, rgba(230, 138, 0, 0.884) 70%);
             min-height: 100vh;
             color: #333;
         }
@@ -26,7 +26,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background-color: #1e293b; /* navy gelap */
+            background-color: #000000; /* navy gelap */
             padding: 10px 20px;
             color: white;
             position: relative;
@@ -40,14 +40,14 @@
         }
         .logo-icon {
             font-size: 30px;
-            color: #38bdf8; /* biru cerah */
+            color: #f8bb38; /* biru cerah */
         }
         .logo h2 {
             font-weight: 700;
             font-size: 20px;
         }
         .logo h2 span {
-            color: #38bdf8;
+            color: #f8bb38;
         }
 
         @media (max-width: 1024px) {
@@ -95,7 +95,7 @@
         }
         .nav-link:hover,
         .nav-link:focus {
-            color: #38bdf8;
+            color: #f8bb38;
         }
 
         /* User profile / logout */
@@ -129,7 +129,7 @@
         .user-avatar {
             width: 45px;
             height: 45px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: radial-gradient(ellipse at center, rgb(238, 187, 125) 0%, rgba(230, 138, 0, 0.884) 70%);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -192,7 +192,7 @@
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: radial-gradient(ellipse at center, rgb(230, 138, 0, 0.884) 0%, rgba(230, 138, 0, 0.884) 70%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -234,7 +234,7 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: radial-gradient(ellipse at center, rgb(238, 187, 125) 0%, rgba(230, 138, 0, 0.884) 70%);
         }
 
         .stat-icon {
@@ -306,7 +306,7 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #667eea);
             color: white;
         }
 
@@ -353,7 +353,7 @@
         }
 
         .data-table th {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: radial-gradient(ellipse at right, rgb(238, 187, 125) 0%, rgba(230, 138, 0, 0.884) 100%);
             color: white;
             padding: 1rem;
             text-align: left;
@@ -501,7 +501,6 @@
         .mobile-nav {
             display: none;
             position: fixed;
-            top: 70px;
             left: 0;
             right: 0;
             background: rgba(255, 255, 255, 0.98);
@@ -534,7 +533,7 @@
         }
 
         .mobile-nav-link:hover, .mobile-nav-link.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: radial-gradient(ellipse at center, rgb(238, 187, 125) 0%, rgba(230, 138, 0, 0.884) 70%);
             color: white;
         }
 
@@ -790,8 +789,8 @@
             <li><a href="{{ route('admin.dashboard') }}" class="mobile-nav-link active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
             <li><a href="{{ route('admin.kendaraan.index') }}" class="mobile-nav-link"><i class="fas fa-car"></i> Kelola Mobil</a></li>
             {{-- <li><a href="{{ route('admin.sopir.index') }}" class="mobile-nav-link"><i class="fas fa-user-tie"></i> Kelola Supir</a></li> --}}
-            <li><a href="#" class="mobile-nav-link"><i class="fas fa-calendar-check"></i> Booking</a></li>
-            <li><a href="#" class="mobile-nav-link"><i class="fas fa-users"></i> Karyawan</a></li>
+            <li><a href="{{ route('admin.booking.index') }}" class="mobile-nav-link"><i class="fas fa-calendar-check"></i> Booking</a></li>
+            <li><a href="{{ route('admin.karyawan.index') }}" class="mobile-nav-link"><i class="fas fa-users"></i> Karyawan</a></li>
             <li><a href="{{ route('admin.laporan.index') }}" class="mobile-nav-link"><i class="fas fa-chart-bar"></i> Laporan</a></li>
         </ul>
     </div>
@@ -827,4 +826,3 @@
 
 </body>
 </html>
-

@@ -6,59 +6,71 @@
 <!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       crossorigin="anonymous" referrerpolicy="no-referrer" />
-<!-- Booking CSS -->
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 @endsection
 
 @section('content')
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
     .card-glass {
-        background: rgba(255, 255, 255, 0.06);
+        background: rgb(255, 255, 255);
         border-radius: 16px;
         padding: 25px;
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         backdrop-filter: blur(10px);
-        color: white;
+        color: #111827;
         margin: 40px auto;
         max-width: 600px;
+    }
+
+    .card-glass h2 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: #1f2937;
         text-align: center;
     }
 
-    .card-glass h1 {
-        margin-bottom: 20px;
+    .info-item {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
     }
 
-    .card-glass img {
-        margin-bottom: 20px;
-        text-align: center;
+    .info-item strong {
+        color: #374151;
+        min-width: 80px;
+        display: inline-block;
     }
 
     .btn-glass {
-        background-color: rgba(255,255,255,0.2);
-        border: none;
+        background-color: #6c757d;
         color: white;
+        border: none;
         padding: 10px 20px;
         border-radius: 8px;
         transition: background-color 0.3s;
+        text-decoration: none;
+        display: inline-block;
     }
 
     .btn-glass:hover {
-        background-color: rgba(255,255,255,0.4);
+        background-color: #5c636a;
+        color: white;
     }
 </style>
 
 <div class="card-glass">
-    <h1>Detail Karyawan</h1>
+    <h2>Detail Karyawan</h2>
 
-    <p><strong>Nama :</strong>{{ $karyawan->nama }}</p>
-    <p><strong>Jabatan :</strong> {{ $karyawan->jabatan }}</p>
-    <p><strong>Email :</strong> {{ $karyawan->email }}</p>
-    <p><strong>Role :</strong> {{ $karyawan->role }}</p>
+    <p class="info-item"><strong>Nama:</strong> {{ $karyawan->nama }}</p>
+    <p class="info-item"><strong>Jabatan:</strong> {{ $karyawan->jabatan }}</p>
+    <p class="info-item"><strong>Email:</strong> {{ $karyawan->email }}</p>
+    <p class="info-item"><strong>Role:</strong> {{ $karyawan->role }}</p>
 
-    <div class="mt-3">
-        <a href="{{ route('admin.karyawan.index') }}" class="btn-glass">Kembali</a>
+    <div class="mt-4 text-center">
+        <a href="{{ route('admin.karyawan.index') }}" class="btn-glass"><i class="fas fa-arrow-left me-1"></i> Kembali</a>
     </div>
 </div>
 @endsection

@@ -209,7 +209,7 @@ foreach ($rawBookings as $booking) {
                 'status'                => 'selesai',
                 'nomor_telepon'         => $booking->nomor_telepon,
                 'nama'                  => $booking->nama,
-                'catatan_admin' => $booking->catatan_admin,
+                'catatan_admin'         => $booking->catatan_admin,
 
             ]);
         }

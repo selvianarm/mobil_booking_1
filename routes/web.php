@@ -138,8 +138,7 @@ Route::middleware(['auth', 'role:user'])->prefix('user')->name('user.')->group(f
 Route::get('/export-pdf', [PDFController::class, 'export']);
 Route::get('/admin/laporan/{id}/download', [LaporanController::class, 'downloadPdf'])->name('admin.laporan.download');
 
-
-Route::get('/admin/booking/{id}', [BookingController::class, 'show'])->name('admin.booking.show');
+Route::get('/admin/booking/{id}/detail', [AdminDashboardController::class, 'show'])->name('admin.bookings.show');
 Route::get('/admin/bookings/{id}/edit', [AdminDashboardController::class, 'edit'])->name('admin.bookings.edit');
 Route::get('/admin/bookings/{id}/update', [AdminDashboardController::class, 'update'])->name('admin.bookings.update');
 

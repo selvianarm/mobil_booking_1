@@ -1,6 +1,3 @@
-
-
-
 @extends('layouts.app')
 
 @section('title', 'Dashboard User')
@@ -13,53 +10,105 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: nowrap;
+            flex-direction: row;
+        }
+
+        .stat-item {
+            flex: 1 1 22%; /* 4 kotak dalam satu baris */
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            min-width: 150px;
+            max-width: 220px;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-4px);
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #ff6600;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        /* Responsive fallback jika layar terlalu kecil */
+        @media (max-width: 1024px) {
+            .stats-container {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .stat-item {
+                flex: 1 1 45%;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .stat-item {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+
+
 @endsection
 
 @section('content')
 
-    <div class="container">
-        <div class="floating-elements">
-            <div class="floating-circle circle-1"></div>
-            <div class="floating-circle circle-2"></div>
-            <div class="floating-circle circle-3"></div>
-        </div>
-        
-        <div class="hero-section">
-            <div class="content-left">
+    <div class="hero-section">
+        <div class="content-left">
 
-                <h1 class="hero-title">ROADSTER</h1>
-                
-                <p class="hero-subtitle">
-                    Mobil tercepat di dunia dengan akselerasi rekor, jangkauan terdepan, dan performa yang tak tertandingi.
-                </p>
-                
-                <div class="stats-container">
-                    <div class="stat-item">
-                        <div class="stat-number">{{ $availableCars  }}</div>
-                        <div class="stat-label">Mobil Tersedia</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">{{ $activeBookingCount  }}</div>
-                        <div class="stat-label">Booking Aktif</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">{{ $totalTrips  }}</div>
-                        <div class="stat-label">Total Perjalanan</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">{{ $pendingApprovals  }}</div>
-                        <div class="stat-label">Menunggu Approval</div>
-                    </div>
+            <h1 class="hero-title">ROADSTER</h1>
+            
+            <p class="hero-subtitle">
+                Mobil tercepat di dunia dengan akselerasi rekor, jangkauan terdepan, dan performa yang tak tertandingi.
+            </p>
+            
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">{{ $availableCars  }}</div>
+                    <div class="stat-label">Mobil Tersedia</div>
                 </div>
-                
-                <div class="cta-section">
-                    <button class="reserve-btn"><a href="{{ route('user.dashboard') }}">PESAN SEKARANG</a></button>
+                <div class="stat-item">
+                    <div class="stat-number">{{ $activeBookingCount  }}</div>
+                    <div class="stat-label">Booking Aktif</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">{{ $totalTrips  }}</div>
+                    <div class="stat-label">Total Perjalanan</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">{{ $pendingApprovals  }}</div>
+                    <div class="stat-label">Menunggu Approval</div>
                 </div>
             </div>
             
-            <div class="content-right">
-                <img src="{{ asset('images/mobil.png') }}" alt="Roadster Car" class="car-image" loading="lazy">
+            <div class="cta-section">
+                <button class="reserve-btn"><a href="{{ route('user.booking') }}">PESAN SEKARANG</a></button>
             </div>
+        </div>
+        
+        <div class="content-right">
+            <img src="{{ asset('images/mobil.png') }}" alt="Roadster Car" class="car-image" loading="lazy">
         </div>
     </div>
 
@@ -164,6 +213,18 @@
 @endsection
 
 @section('scripts')
+
+@if(session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: "{{ Str::contains(session('success'), 'dikembalikan') ? 'Pengembalian Berhasil!' : 'Booking Berhasil!' }}",
+            text: "{{ session('success') }}",
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif
+
     <script src="{{ asset('js/navbar.js') }}"></script>
     <script src="{{ asset('js/dashboard.js') }}"></script>
 @endsection

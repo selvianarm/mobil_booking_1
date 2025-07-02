@@ -12,6 +12,8 @@ use App\Models\Kendaraan;
 use Illuminate\Support\Facades\Http;
 use App\Models\Booking;
 use App\Models\Laporan;
+use App\Mail\BookingUpdated;
+
 
 class AdminDashboardController extends Controller
 {
@@ -56,8 +58,8 @@ class AdminDashboardController extends Controller
 
     public function show($id)
     {
-        $booking = Booking::with(['kendaraans', 'user'])->findOrFail($id); // gunakan relasi jika ada
-        return view('admin.booking.show', compact('booking'));
+        $booking = Booking::with(['kendaraan', 'user'])->findOrFail($id); // gunakan relasi jika ada
+        return view('admin.bookings.show', compact('booking'));
     }
 
     public function edit($id)
@@ -69,33 +71,38 @@ class AdminDashboardController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Ambil data booking
         $booking = Booking::findOrFail($id);
-        $bookings = Booking::with(['kendaraan', 'kendaraanPengganti'])->latest()->get();
 
+        // Simpan kendaraan lama sebelum diubah
+        $kendaraanLama = $booking->kendaraan;
 
+        // Validasi input dari admin
         $request->validate([
             'kendaraan_pengganti_id' => 'required|exists:kendaraan,id',
             'catatan_admin' => 'required|in:rusak,lainnya',
         ]);
 
-        // Ubah status mobil awal ke "rusak"
-        $booking->kendaraan->update(['status' => 'rusak']);
+        // Ubah status kendaraan lama menjadi "rusak"
+        $kendaraanLama->update(['status' => 'rusak']);
 
-        // Ubah status mobil pengganti ke "tidak tersedia"
-        $mobilPengganti = Kendaraan::find($request->kendaraan_pengganti_id);
-        $mobilPengganti->update(['status' => 'tidak tersedia']);
+        // Ambil dan update kendaraan pengganti
+        $kendaraanBaru = Kendaraan::findOrFail($request->kendaraan_pengganti_id);
+        $kendaraanBaru->update(['status' => 'tidak tersedia']);
 
         // Update data booking
-$booking->kendaraan_pengganti_id = $request->kendaraan_pengganti_id;
-$booking->catatan_admin = $request->catatan_admin;
+        $booking->kendaraan_pengganti_id = $kendaraanBaru->id;
+        $booking->catatan_admin = $request->catatan_admin;
+        $booking->status = 'pending';
+        $booking->save();
 
+        // Kirim email notifikasi ke user
+        if ($kendaraanLama->id !== $kendaraanBaru->id) {
+            Mail::to($booking->user->email)->send(new BookingUpdated($booking, $kendaraanLama, $kendaraanBaru));
+        }
 
-$booking->status = 'pending';
-$booking->save();
-
-        return redirect()->route('admin.dashboard')->with('success', 'Booking berhasil diubah .');
+        return redirect()->route('admin.dashboard')->with('success', 'Booking berhasil diubah.');
     }
-
 
     public function approve($id)
     {

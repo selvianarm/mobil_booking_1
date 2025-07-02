@@ -32,37 +32,37 @@
                     <h3 class="font-bold text-xl mb-2">{{ $item->jenis }}</h3>
 
                     @php
-    if ($item->status === 'rusak') {
-        $katalogStatus = 'Rusak';
-        $katalogColor = 'text-yellow-600';
-        $buttonText = 'Tidak Tersedia';
-        $buttonLink = '#';
-        $buttonDisabled = true;
-    } elseif ($active && $active->status === 'pending' && $active->user_id === auth()->id()) {
-        $katalogStatus = 'Menunggu Approval';
-        $katalogColor = 'text-yellow-600';
-        $buttonText = 'Detail';
-        $buttonLink = route('user.booking.detail', ['kendaraan' => $item->id]);
-        $buttonDisabled = false;
-    } elseif ($active && $active->status === 'approved') {
-        $katalogStatus = 'Sedang Digunakan';
-        $katalogColor = 'text-red-600';
-        $buttonText = 'Detail';
-        $buttonLink = route('user.booking.detail', ['kendaraan' => $item->id]);
-        $buttonDisabled = false;
-    } else {
-        $katalogStatus = 'Tersedia';
-        $katalogColor = 'text-green-600';
-        $buttonText = 'Booking';
-        $buttonLink = route('user.booking.create', ['id' => $item->id]);
-        $buttonDisabled = false;
-    }
-@endphp
+                        if ($item->status === 'rusak') {
+                            $katalogStatus = 'Rusak';
+                            $katalogColor = 'text-yellow-600';
+                            $buttonText = 'Tidak Tersedia';
+                            $buttonLink = '#';
+                            $buttonDisabled = true;
+                        } elseif ($active && $active->status === 'pending' && $active) {
+                            $katalogStatus = 'Menunggu Approval';
+                            $katalogColor = 'text-yellow-600';
+                            $buttonText = 'Detail';
+                            $buttonLink = route('user.booking.detail', ['kendaraan' => $item->id]);
+                            $buttonDisabled = false;
+                        } elseif ($active && $active->status === 'approved') {
+                            $katalogStatus = 'Sedang Digunakan';
+                            $katalogColor = 'text-red-600';
+                            $buttonText = 'Detail';
+                            $buttonLink = route('user.booking.detail', ['kendaraan' => $item->id]);
+                            $buttonDisabled = false;
+                        } else {
+                            $katalogStatus = 'Tersedia';
+                            $katalogColor = 'text-green-600';
+                            $buttonText = 'Booking';
+                            $buttonLink = route('user.booking.create', ['id' => $item->id]);
+                            $buttonDisabled = false;
+                        }
+                    @endphp
 
 
-<p class="font-semibold mb-1 {{ $katalogColor }}">
-    {{ $katalogStatus }}
-</p>
+                    <p class="font-semibold mb-1 {{ $katalogColor }}">
+                        {{ $katalogStatus }}
+                    </p>
 
 
                     {{-- Info pengguna aktif --}}

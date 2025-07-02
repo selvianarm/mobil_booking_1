@@ -83,7 +83,7 @@
         }
 
         .nav-menu li a:hover {
-        background-color: #008cff;
+        background-color: rgba(230, 138, 0, 0.884);
         color: #ffffff;
         }
 
@@ -167,5 +167,5 @@
 
     @yield('scripts')
     <script src="{{ asset('js/navbar.js') }}"></script>
-    </body>
+    </body>
 </html>

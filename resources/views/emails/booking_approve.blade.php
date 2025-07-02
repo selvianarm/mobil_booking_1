@@ -59,7 +59,9 @@
     <div class="content">
         <p>Halo <strong>{{ $booking->nama }}</strong>,</p>
 
-        <p>Dengan ini kami menyampaikan bahwa permohonan booking Anda untuk kendaraan jenis <strong>{{ $booking->kendaraan->jenis }}</strong> telah <span style="color: green;"><strong>DISETUJUI</strong></span>.</p>
+        <p>Dengan ini kami menyampaikan bahwa permohonan booking Anda untuk kendaraan jenis <strong>{{ $booking->kendaraan->jenis }}</strong> ,
+            kendaraan pengganti <strong>{{ $booking->kendaraanPengganti->jenis ?? 'Tidak ada' }}</strong> pada tanggal <strong>{{ $booking->tanggal }}</strong>
+            telah <span style="color: green;"><strong>DISETUJUI</strong></span>.</p>
 
         <p>Silakan hadir sesuai jadwal yang telah disepakati.</p>
 

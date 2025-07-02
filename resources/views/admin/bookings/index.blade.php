@@ -134,7 +134,7 @@
                                 </td>
                                 <td>{{ $booking->catatan_admin ?? '-' }}</td>
                                 <td>
-                                    <a href="{{ route('admin.booking.show', $booking->id) }}" class="text-indigo-600 hover:text-indigo-800 font-medium mr-2">
+                                    <a href="{{ route('admin.bookings.show', $booking->id) }}" class="text-indigo-600 hover:text-indigo-800 font-medium mr-2">
                                         <i class="fas fa-eye"></i> Detail
                                     </a> 
                                 </td>
@@ -158,11 +158,11 @@
         $('#bookingTable').DataTable({
             language: {
                 search: "🔍 Cari:",
-                lengthMenu: "Tampilkan _MENU_ data per halaman",
+                lengthMenu: "Tampilkan MENU data per halaman",
                 zeroRecords: "Tidak ada data ditemukan",
-                info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                info: "Menampilkan START - END dari TOTAL data",
                 infoEmpty: "Tidak ada data tersedia",
-                infoFiltered: "(difilter dari total _MAX_ data)",
+                infoFiltered: "(difilter dari total MAX data)",
                 paginate: {
                     first: "Pertama",
                     last: "Terakhir",

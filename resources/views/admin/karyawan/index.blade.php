@@ -11,7 +11,7 @@
         }
 
         thead th {
-            background: linear-gradient(to right, #e0f7fa, #ffffff);
+            background: radial-gradient(ellipse at right, rgb(230, 138, 0, 0.884) 0%, rgba(230, 138, 0, 0.884) 70%);
             color: #333;
             border-bottom: 2px solid #ccc;
         }
@@ -22,7 +22,7 @@
         }
 
         tbody td {
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #ffb23e;
         }
 
         tbody td img {
@@ -64,9 +64,9 @@
             <h2 class="text-2xl font-bold text-gray-800">Daftar Karyawan</h2>
         </div>
         <a href="{{ route('admin.karyawan.create') }}"
-           class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-5 py-2 rounded-lg shadow hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2">
-            <i class="fas fa-plus"></i> Tambah Karyawan
-        </a>
+            class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg shadow hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2">
+                <i class="fas fa-plus"></i> Tambah Karyawan
+            </a>
     </div>
 
    @if (session('success'))
@@ -75,19 +75,20 @@
         </div>
     @endif
 
-    <div class="bg-white rounded-xl shadow-lg overflow-x-auto border border-blue-100">
+    <div class="bg-white rounded-xl shadow-lg overflow-x-auto">
         <table class="w-full text-sm text-left text-gray-700">
-            <thead class="bg-gradient-to-r from-cyan-100 to-blue-50">
+            <thead class="bg-gradient-to-r from-orange-400 to-orange-600 text-white">
                 <tr>
-                    <th class="px-5 py-3 font-semibold text-blue-800">Nama</th>
-                    <th class="px-5 py-3 font-semibold text-blue-800">Jabatan</th>
-                    <th class="px-5 py-3 font-semibold text-blue-800">Email</th>
-                    <th class="px-5 py-3 font-semibold text-blue-800">Aksi</th>
+                    <th class="px-5 py-3 font-semibold">Nama</th>
+                    <th class="px-5 py-3 font-semibold">Jabatan</th>
+                    <th class="px-5 py-3 font-semibold">Email</th>
+                    <th class="px-5 py-3 font-semibold">Aksi</th>
                 </tr>
             </thead>
+
             <tbody>
                 @forelse ($karyawans as $karyawan)
-                    <tr class="odd:bg-white even:bg-blue-50 hover:bg-blue-100 transition">
+                    <tr class="odd:bg-white even:bg-orange-50 hover:bg-orange-100 transition">
                         <td class="px-5 py-4">{{ $karyawan->nama }}</td>
                         <td class="px-5 py-4 font-medium">{{ $karyawan->jabatan }}</td>
                         <td class="px-5 py-4">{{ $karyawan->email }}</td>

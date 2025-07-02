@@ -13,65 +13,99 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>   
-            .container {
-                margin-top: 80px;
-                width: 100%;
-                max-width: 1300px;
-                padding: 1rem;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
+    .container {
+        margin: 80px auto 0 auto; /* Atas 80px, kiri-kanan auto, bawah 0 */
+        width: 100%;
+        max-width: 1300px; /* Atau sesuai kebutuhan */
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+.car-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem; /* lebih longgar */
+  margin-top: 2rem;
+  z-index: 2;
+}
 
-            .car-stats {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-            z-index: 2;
-            }
-            .stat {
-                background: #fff;
-                border: 1px solid #ffe0cc;
-                box-shadow: 0 5px 15px rgba(255, 102, 0, 0.08);
-                color: #333;
-                padding: 1rem 1.5rem;
-                border-radius: 15px;
-                text-align: center;
-                min-width: 100px;
-                backdrop-filter: blur(6px);
-            }
-            .stat-value {
-                font-size: 1.5rem;
-                font-weight: bold;
-                color: #ff6600;
-            }
-            .stat-label {
+.stat {
+  background: #fff;
+  border: 1px solid #ffe0cc;
+  box-shadow: 0 8px 20px rgba(255, 102, 0, 0.1);
+  color: #333;
+  padding: 2rem 2.5rem; /* lebih besar */
+  border-radius: 20px;
+  text-align: center;
+  min-width: 150px;
+  backdrop-filter: blur(6px);
+  transition: transform 0.3s ease;
+}
+.stat:hover {
+  transform: scale(1.05); /* efek interaktif */
+}
+
+.stat-value {
+  font-size: 2.2rem; /* angka lebih besar */
+  font-weight: 800;
+  color: #ff6600;
+}
+
+.stat-label {
+  font-size: 1rem; /* label lebih besar */
+  color: #b84900a1;
+  margin-top: 0.5rem;
+}
+
+
+        /* Tablet */
+        @media (max-width: 768px) {
+        .car-stats {
+        display: grid;               /* Ganti dari flex ke grid */
+        grid-template-columns: 1fr 1fr; /* 2 kolom */
+        gap: 1rem 1rem;              /* jarak antar baris dan kolom */
+        padding: 0 1rem;
+        justify-items: center;      /* posisi konten di tengah */
+    }
+    .car-stats .stat {
+        width: 100%;              /* ➜ isi penuh container */
+        max-width: 350px;         /* ➜ biar tidak terlalu lebar */
+    }
+
+        .stat-value {
+            font-size: 1.8rem;
+        }
+
+        .stat-label {
             font-size: 0.85rem;
-            color: #b84900a1;
-            }
-            
-            @media (max-width: 768px) {
-                .car-circle { width: 85vw; }
-                .car-stats { flex-direction: column; gap: 1rem; }
-                .top-info { flex-direction: column; gap: 1rem; }
-                .car-stats {
-                    flex-direction: row;
-                    flex-wrap: nowrap;
-                    overflow-x: auto;
-                    gap: 1rem;
-                    padding: 0 1rem;
-                    justify-content: flex-start;
-                    scroll-snap-type: x mandatory;
-                }
-    
-                .car-stats .stat {
-                    flex: 0 0 auto;
-                    min-width: 130px;
-                    scroll-snap-align: start;
-                }
-                }
+        }
+        }
+
+        /* HP kecil */
+        @media (max-width: 480px) {
+        .car-stats {
+            flex-direction: column;
+            align-items: center;
+            overflow-x: unset;
+            scroll-snap-type: none;
+        }
+
+        .stat {
+            width: 100%;
+            max-width: none;
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+        }
+        }
+
     </style>
 
 @endsection
@@ -85,18 +119,16 @@
             <div class="stat"><div class="stat-value" id="stat3">{{ $totalTrips  }}</div><div class="stat-label">Total Perjalanan</div></div>
             <div class="stat"><div class="stat-value" id="stat3">{{ $pendingApprovals  }}</div><div class="stat-label">Menunggu Approval</div></div>
         </div>
-    </div>
-    <div id="booking">
         <x-katalog-kendaraan :kendaraans="$kendaraans" :activeBookings="$activeBookings" />
-
+    
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
-
+    
         @if(session('error'))
             <div class="alert alert-error">{{ session('error') }}</div>
         @endif
-
+    
         @if($errors->any())
             <div class="alert alert-error">
                 <ul>
@@ -106,6 +138,8 @@
                 </ul>
             </div>
         @endif
+    </div>
+    <div id="booking">
     </div>
 
         

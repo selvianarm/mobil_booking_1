@@ -11,7 +11,7 @@
         }
 
         thead th {
-            background: linear-gradient(to right, #e0f7fa, #ffffff);
+            background: radial-gradient(ellipse at right, rgb(230, 138, 0, 0.884) 0%, rgba(230, 138, 0, 0.884) 70%);
             color: #333;
             border-bottom: 2px solid #ccc;
         }
@@ -65,7 +65,7 @@
             <h2 class="text-2xl font-bold text-gray-800">Manajemen Kendaraan</h2>
         </div>
         <a href="{{ route('admin.kendaraan.create') }}"
-           class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-5 py-2 rounded-lg shadow hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2">
+           class="bg-gradient-to-r from-orange-500 to-orange-500 text-white px-5 py-2 rounded-lg shadow hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2">
             <i class="fas fa-plus"></i> Tambah Kendaraan
         </a>
     </div>
@@ -76,21 +76,21 @@
         </div>
     @endif
 
-    <div class="bg-white rounded-xl shadow-lg overflow-x-auto border border-blue-100">
+    <div class="bg-white rounded-xl shadow-lg overflow-x-auto">
         <table class="w-full text-sm text-left text-gray-700">
-            <thead class="bg-gradient-to-r from-cyan-100 to-blue-50">
+            <thead class="bg-gradient-to-r from-orange-400 to-orange-600 text-white">
                 <tr>
-                    <th class="px-5 py-3 font-semibold text-blue-800">ID</th>
-                    <th class="px-5 py-3 font-semibold text-blue-800">Jenis</th>
-                    <th class="px-5 py-3 font-semibold text-blue-800">Foto</th>
-                    <th class="px-5 py-3 font-semibold text-blue-800">Status</th>
+                    <th class="px-5 py-3 font-semibold">ID</th>
+                    <th class="px-5 py-3 font-semibold">Jenis</th>
+                    <th class="px-5 py-3 font-semibold">Foto</th>
+                    <th class="px-5 py-3 font-semibold">Status</th>
 
-                    <th class="px-5 py-3 font-semibold text-blue-800">Aksi</th>
+                    <th class="px-5 py-3 font-semibold">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($kendaraans as $item)
-                    <tr class="odd:bg-white even:bg-blue-50 hover:bg-blue-100 transition">
+                    <tr class="odd:bg-white even:bg-orange-50 hover:bg-orange-100 transition">
                         <td class="px-5 py-4">{{ $item->id }}</td>
                         <td class="px-5 py-4 font-medium">{{ $item->jenis }}</td>
                         <td class="px-5 py-4">
@@ -112,10 +112,10 @@
                         </td>
                         
                         <td class="px-5 py-4 flex flex-wrap gap-2">
-                            <a href="{{ route('admin.kendaraan.detail', $item->id) }}" class="aksi-link text-blue-600">
+                            <a href="{{ route('admin.kendaraan.detail', $item->id) }}" class="text-indigo-600 hover:text-indigo-800 font-medium mr-2">
                                 <i class="fas fa-eye"></i> Detail
                             </a>
-                            <a href="{{ route('admin.kendaraan.edit', $item->id) }}" class="aksi-link text-yellow-600">
+                            <a href="{{ route('admin.kendaraan.edit', $item->id) }}" class="aksi-link text-yellow-500">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
                             <form action="{{ route('admin.kendaraan.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin hapus data ini?');">

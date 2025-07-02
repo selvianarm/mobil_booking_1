@@ -6,7 +6,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
-            background-image: url('/images/latar.png');
+            background-image: url('/images/latar.jpg');
             background-size: cover;
             background-position: center;
         }
@@ -17,13 +17,13 @@
     {{-- Header --}}
     <div class="flex justify-between items-center bg-white px-2 py-1 shadow-sm mb-4">
         <img src="/images/logo.png" alt="Logo" class="h-12">
-        <a href="{{ route('login') }}" class="bg-blue-900 text-white text-xs px-4 py-2 rounded">Login</a>
+        <a href="{{ route('login') }}" class="bg-orange-500 text-white text-xs px-4 py-2 rounded">Login</a>
     </div>
 
     {{-- Sign Up Form --}}
     <div class="flex flex-1 justify-center items-center">
         <div class="bg-white/70 backdrop-blur-md p-10 rounded-xl shadow-md w-full max-w-md text-center">
-            <h1 class="text-2xl font-semibold text-blue-900 mb-6">Register</h1>
+            <h1 class="text-2xl font-semibold text-orange-500 mb-6">Register</h1>
 
             <form method="POST" action="{{ route('register') }}">
                 @csrf
@@ -55,13 +55,13 @@
                         class="w-full mt-1 p-2 border rounded focus:outline-none focus:ring">
                 </div>
 
-                <button type="submit" class="bg-blue-900 text-white w-full py-2 rounded hover:bg-blue-800">
+                <button type="submit" class="bg-orange-500 text-white w-full py-2 rounded hover:bg-orange-800">
                     Register
                 </button>
             </form>
 
             <p class="mt-4 text-sm text-gray-600">Sudah punya akun?
-                <a href="{{ route('login') }}" class="text-blue-700 hover:underline">Sign In</a>
+                <a href="{{ route('login') }}" class="text-orange-700 hover:underline">Sign In</a>
             </p>
         </div>
     </div>
